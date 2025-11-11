@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Expense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .sidebar {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- TOP NAV -->
+<nav class="px-6 py-4 flex justify-between items-center shadow-sm bg-white">
+    <h1 class="text-xl font-semibold tracking-wide text-green-700">💰 Add Expense</h1>
+    <button id="menuBtn" class="text-3xl hover:opacity-70 transition">&#9776;</button>
+</nav>
+
+<!-- RIGHT SLIDE MENU -->
+<div id="sideMenu" class="sidebar fixed top-0 right-0 h-full w-56 px-6 py-6 translate-x-full transition-all duration-300 shadow-xl">
+    <button id="closeBtn" class="text-3xl mb-6 hover:opacity-70 transition">&times;</button>
+    <ul class="flex flex-col gap-5 text-lg font-medium">
+        <li><a href="/" class="hover:text-green-600">Home</a></li>
+        <li><a href="/financial-advice-page" class="hover:text-green-600">Financial Advisor</a></li>
+        <li><a href="/price-form" class="hover:text-green-600">Crop Price Prediction</a></li>
+        <li><a href="/budget-summary-page" class="hover:text-green-600">Budget Summary</a></li>
+        <li><a href="/loan-recommender" class="hover:text-green-600">Loan Recommender</a></li>
+    </ul>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="pt-10 flex justify-center p-4">
+    <div class="bg-white shadow-lg rounded-2xl w-full max-w-md p-6">
+        <form action="/add-expense-page" method="POST" class="space-y-4">
+            <h2 class="text-2xl font-bold mb-4 text-center">Add New Expense</h2>
+            <div>
+                <label class="block text-gray-700">Expense Name:</label>
+                <input type="text" name="name" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">Amount (Rs.):</label>
+                <input type="number" name="amount" step="0.01" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">Category:</label>
+                <select name="category" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    {% for c in categories %}
+                        <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-700">Date (YYYY-MM-DD):</label>
+                <input type="date" name="date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">Save Expense</button>
+        </form>
+
+        {% if result %}
+        <div class="mt-4 p-3 bg-green-100 text-green-800 rounded">
+            <p>{{ result }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const menuBtn = document.getElementById("menuBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const sideMenu = document.getElementById("sideMenu");
+
+    menuBtn.onclick = () => sideMenu.classList.remove("translate-x-full");
+    closeBtn.onclick = () => sideMenu.classList.add("translate-x-full");
+</script>
+
+</body>
+</html>

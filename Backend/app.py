@@ -1,46 +1,33 @@
-import warnings
-warnings.filterwarnings("ignore", category=FutureWarning)
-
-from flask import Flask, request, jsonify,render_template
+from flask import Flask, request, jsonify, render_template
 from advisor import get_financial_advice
 from kannadacrop import predict_crop_price
 from exp_budget import FarmerExpenseTracker
-# from loan_recommender import recommend_loan
-import joblib
-# import numpy as np
+from loan_recommender import get_loan_recommendation
+
 
 app = Flask(__name__)
 
 # Initialize expense tracker
 tracker = FarmerExpenseTracker()
 
-# model = joblib.load('loan_recommender.pkl')
-# le_crop = joblib.load('le_crop.pkl')
-# le_loan = joblib.load('le_loan.pkl')
-# le_land = joblib.load('le_land.pkl')
-# le_location = joblib.load('le_location.pkl')
 
-#loan-recommendation Route
-@app.route('/loan-recommender', methods=['POST'])
-def loan_recommend_route():
-    data = request.json
-    land_type = data.get('LandType')
-    land_size = float(data.get('LandSize'))
-    location = data.get('Location')
-    crop = data.get('CropType')
-    income = int(data.get('Income'))
-
-    # ✅ Call your function from loan_recommender.py
-    result = get_loan_recommendation(land_type, land_size, location, crop, income)
-
-    return jsonify(result)
-
-# Home route
+# ✅ FRONTEND HOME PAGE
 @app.route('/')
-def home():
+def homepage():
+    return render_template("home.html")
+
+
+# ✅ API Home (optional)
+@app.route('/api')
+def api_home():
     return jsonify({"message": "Welcome to the Farmer Assistant API"}), 200
 
-# --- Financial Advisor Route ---
+
+# ======================================================================
+# ✅ FINANCIAL ADVISOR
+# ======================================================================
+
+# Backend
 @app.route('/financial-advice', methods=['POST'])
 def financial_advice():
     data = request.json
@@ -52,7 +39,17 @@ def financial_advice():
     advice = get_financial_advice(risk, term, initial, monthly)
     return jsonify(advice)
 
-# --- Crop Price Prediction Route ---
+# Frontend
+@app.route('/financial-advice-page')
+def financial_advice_page():
+    return render_template("financial_advice.html")
+
+
+# ======================================================================
+# ✅ CROP PRICE PREDICTION
+# ======================================================================
+
+# Backend
 @app.route('/predict-price', methods=['POST'])
 def predict_price():
     data = request.json
@@ -60,39 +57,103 @@ def predict_price():
     month = int(data.get('month'))
     year = int(data.get('year'))
     rainfall = float(data.get('rainfall'))
-    lang = data.get('language', 'en')  # Optional, default to English
+    lang = data.get('language', 'en')
 
     predicted_price = predict_crop_price(crop, month, year, rainfall, language=lang)
     return jsonify(predicted_price)
 
-# --- Expense and Budget Tracker Route ---
+# Frontend form
+@app.route('/price-form')
+def price_form():
+    return render_template("crop_prediction.html")
+
+@app.route("/get-price", methods=["POST"])
+def get_price_html():
+    crop = request.form.get("crop")
+    month = int(request.form.get("month"))
+    year = int(request.form.get("year"))
+    rainfall = float(request.form.get("rainfall"))
+    lang = request.form.get("language", "en")
+
+    predicted_price = predict_crop_price(crop, month, year, rainfall, language=lang)
+
+    return render_template(
+        "crop_prediction.html",
+        result=predicted_price,
+        crop=crop,
+        month=month,
+        year=year,
+        rainfall=rainfall
+    )
+
+
+# ======================================================================
+# ✅ EXPENSE TRACKER
+# ======================================================================
+
+# Backend add expense
 @app.route('/update-expense', methods=['POST'])
 def update_exp():
     data = request.json
     name = data['name']
     category = data['category']
     amount = data['amount']
-    date = data.get('date')  # Optional
+    date = data.get('date')
 
     result = tracker.add_expense(name, category, amount, date)
     return jsonify(result)
 
+# Frontend - add expense
+@app.route('/expense-form')
+def expense_form():
+    categories = tracker.get_categories()
+    return render_template("add_expense.html", categories=categories)
+
+@app.route('/add-expense-page', methods=['POST'])
+def add_expense_html():
+    name = request.form.get('name')
+    category = request.form.get('category')
+    amount = request.form.get('amount')
+    date = request.form.get('date')
+
+    result = tracker.add_expense(name, category, amount, date)
+    categories = tracker.get_categories()
+
+    return render_template("add_expense.html", categories=categories, result=result)
+
+# Backend budget summary
 @app.route('/budget-status', methods=['GET'])
 def budget_status():
     budget = tracker.get_budget()
     status = tracker.get_summary(budget)
     return jsonify(status)
 
-# Optional: Set budget route
-@app.route('/set-budget', methods=['POST'])
-def set_budget():
+# Frontend budget summary
+@app.route('/budget-summary-page')
+def budget_summary_html():
+    budget = tracker.get_budget()
+    summary = tracker.get_summary(budget)
+    return render_template("budget_summary.html", summary=summary)
+
+
+# ======================================================================
+# ✅ LOAN RECOMMENDER
+# ======================================================================
+
+# Backend
+@app.route('/loan-recommender', methods=['POST'])
+def loan_recommend_route():
     data = request.json
-    amount = data.get('amount')
-    result = tracker.set_budget(amount)
+    land_type = data.get('LandType')
+    land_size = float(data.get('LandSize'))
+    location = data.get('Location')
+    crop = data.get('CropType')
+    income = int(data.get('Income'))
+
+    result = get_loan_recommendation(land_type, land_size, location, crop, income)
     return jsonify(result)
 
+
 if __name__ == '__main__':
-    print("Starting Flask server...")
+    print("✅ Starting Flask server...")
     app.run(debug=True)
-
-

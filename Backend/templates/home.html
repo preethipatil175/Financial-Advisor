@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Financial Advisor</title>
+
+    <!-- ✅ Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ✅ Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: "Poppins", sans-serif; }
+        .sidebar {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.7);  /* ✅ Light glass effect */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- ✅ TOP NAV WITH RIGHT HAMBURGER -->
+    <nav class="px-6 py-4 flex justify-between items-center shadow-sm bg-white">
+        <h1 class="text-xl font-semibold tracking-wide">🌾 Farmer Advisor</h1>
+
+        <!-- Hamburger -->
+        <button id="menuBtn" class="text-3xl hover:opacity-70 transition">&#9776;</button>
+    </nav>
+
+    <!-- ✅ SLIDE-IN RIGHT MENU -->
+    <div id="sideMenu"
+         class="sidebar fixed top-0 right-0 h-full w-56 px-6 py-6 translate-x-full transition-all duration-300 shadow-xl">
+
+        <button id="closeBtn" class="text-3xl mb-6 hover:opacity-70 transition">&times;</button>
+
+        <ul class="flex flex-col gap-5 text-lg font-medium">
+            <li><a href="/" class="hover:text-green-600">Home</a></li>
+            <li><a href="/financial-advice-page" class="hover:text-green-600">Financial Advisor</a></li>
+            <li><a href="/price-form" class="hover:text-green-600">Crop Price Prediction</a></li>
+            <li><a href="/loan-recommender" class="hover:text-green-600">Loan Recommender</a></li>
+            <li><a href="/add-expense-form" class="hover:text-green-600">Expense Tracker</a></li>
+        </ul>
+    </div>
+
+    <!-- ✅ MAIN HOMEPAGE CONTENT -->
+    <section class="flex flex-col items-center text-center mt-40 px-4">
+        <h2 class="text-5xl font-bold mb-4 tracking-wide text-green-700">
+            Farmer Financial Advisor
+        </h2>
+
+        <p class="text-gray-700 max-w-xl text-lg">
+            Smart financial tools to help you plan your money, predict crop prices, and manage your farm expenses easily.
+        </p>
+    </section>
+
+    <!-- ✅ JS FOR MENU -->
+    <script>
+        const menuBtn = document.getElementById("menuBtn");
+        const closeBtn = document.getElementById("closeBtn");
+        const sideMenu = document.getElementById("sideMenu");
+
+        menuBtn.onclick = () => sideMenu.classList.remove("translate-x-full");
+        closeBtn.onclick = () => sideMenu.classList.add("translate-x-full");
+    </script>
+
+</body>
+</html>
