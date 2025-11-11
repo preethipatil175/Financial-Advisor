@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Financial Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .sidebar {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- ✅ TOP NAV WITH RIGHT HAMBURGER -->
+    <nav class="px-6 py-4 flex justify-between items-center shadow-sm bg-white">
+        <h1 class="text-xl font-semibold tracking-wide text-green-700">🌾 Farmer Advisor</h1>
+
+        <!-- ✅ RIGHT SIDE HAMBURGER -->
+        <button id="menuBtn" class="text-3xl hover:opacity-70 transition">&#9776;</button>
+    </nav>
+
+    <!-- ✅ RIGHT SLIDE MENU -->
+    <div id="sideMenu"
+        class="sidebar fixed top-0 right-0 h-full w-56 px-6 py-6 translate-x-full transition-all duration-300 shadow-xl">
+
+        <button id="closeBtn" class="text-3xl mb-6 hover:opacity-70 transition">&times;</button>
+
+        <ul class="flex flex-col gap-5 text-lg font-medium">
+            <li><a href="/" class="hover:text-green-600">Home</a></li>
+            <li><a href="/financial-advice-page" class="hover:text-green-600">Financial Advisor</a></li>
+            <li><a href="/price-form" class="hover:text-green-600">Crop Price Prediction</a></li>
+            <li><a href="/budget-summary-page" class="hover:text-green-600">Expense Tracker</a></li>
+            <li><a href="/loan-recommender" class="hover:text-green-600">Loan Recommender</a></li>
+        </ul>
+    </div>
+
+    <!-- ✅ TWO COLUMN MAIN CONTENT -->
+    <div class="w-full max-w-6xl mx-auto mt-10 bg-white shadow-xl rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- ✅ LEFT SIDE: INPUT FORM -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold text-green-700">📋 Enter Your Details</h2>
+
+            <div>
+                <label class="font-semibold">Risk Profile</label>
+                <select id="risk" class="w-full p-2 border rounded-lg">
+                    <option value="">Select</option>
+                    <option value="conservative">Conservative</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="aggressive">Aggressive</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="font-semibold">Investment Term</label>
+                <select id="term" class="w-full p-2 border rounded-lg">
+                    <option value="">Select</option>
+                    <option value="short">Short (&lt; 5 years)</option>
+                    <option value="medium">Medium (5–10 years)</option>
+                    <option value="long">Long (&gt; 10 years)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="font-semibold">Initial Amount (₹)</label>
+                <input id="initial" type="number" class="w-full p-2 border rounded-lg" placeholder="50000">
+            </div>
+
+            <div>
+                <label class="font-semibold">Monthly Saving (₹)</label>
+                <input id="monthly" type="number" class="w-full p-2 border rounded-lg" placeholder="2000">
+            </div>
+
+            <button onclick="sendAdvice()"
+                class="bg-green-600 text-white w-full p-3 rounded-lg font-semibold hover:bg-green-700">
+                Get Advice
+            </button>
+        </div>
+
+        <!-- ✅ RIGHT SIDE CHAT OUTPUT -->
+        <div class="bg-gray-50 border rounded-xl p-4 flex flex-col h-[500px]">
+            <h2 class="text-2xl font-bold text-green-700 mb-4">🤖 Advisor Output</h2>
+
+            <div id="chatArea" class="flex-1 overflow-y-auto p-2 space-y-3">
+                <div class="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-sm">
+                    I will give you personalized financial advice here ✅
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ JS FIXED & CLEAN -->
+    <script>
+        const menuBtn = document.getElementById("menuBtn");
+        const closeBtn = document.getElementById("closeBtn");
+        const sideMenu = document.getElementById("sideMenu");
+
+        menuBtn.onclick = () => sideMenu.classList.remove("translate-x-full");
+        closeBtn.onclick = () => sideMenu.classList.add("translate-x-full");
+
+        function addBotMessage(text) {
+            const chat = document.getElementById("chatArea");
+            chat.innerHTML += `
+                <div class="bg-green-100 border border-green-300 p-3 rounded-lg max-w-md">
+                    ${text}
+                </div>`;
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function clearInputs() {
+            document.getElementById("risk").value = "";
+            document.getElementById("term").value = "";
+            document.getElementById("initial").value = "";
+            document.getElementById("monthly").value = "";
+        }
+
+        async function sendAdvice() {
+            const payload = {
+                risk_profile: document.getElementById("risk").value,
+                investment_term: document.getElementById("term").value,
+                initial_amount: document.getElementById("initial").value,
+                monthly_saving: document.getElementById("monthly").value
+            };
+
+            addBotMessage("⏳ Processing your details...");
+
+            try {
+                const response = await fetch("/financial-advice", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                document.getElementById("chatArea").lastChild.remove();
+
+                addBotMessage(`<pre class="whitespace-pre-wrap text-sm">${JSON.stringify(data, null, 2)}</pre>`);
+
+                clearInputs();
+
+            } catch (error) {
+                addBotMessage("❌ Error fetching advice");
+            }
+        }
+    </script>
+
+</body>
+</html>

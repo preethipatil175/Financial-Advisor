@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget Summary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .sidebar {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- TOP NAV -->
+<nav class="px-6 py-4 flex justify-between items-center shadow-sm bg-white">
+    <h1 class="text-xl font-semibold tracking-wide text-green-700">💰 Budget Summary</h1>
+    <button id="menuBtn" class="text-3xl hover:opacity-70 transition">&#9776;</button>
+</nav>
+
+<!-- RIGHT SLIDE MENU -->
+<div id="sideMenu" class="sidebar fixed top-0 right-0 h-full w-56 px-6 py-6 translate-x-full transition-all duration-300 shadow-xl">
+    <button id="closeBtn" class="text-3xl mb-6 hover:opacity-70 transition">&times;</button>
+    <ul class="flex flex-col gap-5 text-lg font-medium">
+        <li><a href="/" class="hover:text-green-600">Home</a></li>
+        <li><a href="/financial-advice-page" class="hover:text-green-600">Financial Advisor</a></li>
+        <li><a href="/price-form" class="hover:text-green-600">Crop Price Prediction</a></li>
+        <li><a href="/expense-form" class="hover:text-green-600">Add Expense</a></li>
+        <li><a href="/budget-summary-page" class="hover:text-green-600 font-semibold text-green-700">Budget Summary</a></li>
+        <li><a href="/loan-recommender" class="hover:text-green-600">Loan Recommender</a></li>
+    </ul>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="pt-10 flex justify-center p-4">
+    <div class="bg-white shadow-lg rounded-2xl w-full max-w-lg p-6">
+        <h2 class="text-2xl font-bold mb-4 text-center">Budget Summary</h2>
+        <div class="space-y-3">
+            {% for category, data in summary.items() %}
+            <div class="p-4 border border-gray-200 rounded hover:shadow-md transition">
+                <h3 class="font-semibold text-lg">{{ category }}</h3>
+                <p>Total Spent: <span class="font-bold">₹{{ data.total_spent }}</span></p>
+                <p>Remaining Budget: <span class="font-bold">₹{{ data.remaining }}</span></p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="flex justify-center mt-4">
+            <a href="/expense-form" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition">Add More Expenses</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const menuBtn = document.getElementById("menuBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const sideMenu = document.getElementById("sideMenu");
+
+    menuBtn.onclick = () => sideMenu.classList.remove("translate-x-full");
+    closeBtn.onclick = () => sideMenu.classList.add("translate-x-full");
+</script>
+
+</body>
+</html>
