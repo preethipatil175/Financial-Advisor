@@ -74,7 +74,7 @@ Make sure JSON is valid, Kannada is accurate, and percentages total 100.
 """
 
     try:
-        model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+        model = genai.GenerativeModel(model_name="gemini-2.5-flash")
         response = model.generate_content(prompt)
         llm_text = response.text.strip()
 

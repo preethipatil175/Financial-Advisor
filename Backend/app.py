@@ -3,6 +3,8 @@ from advisor import get_financial_advice
 from kannadacrop import predict_crop_price
 from exp_budget import FarmerExpenseTracker
 from loan_recommender import get_loan_recommendation
+import crop_price  # ✅ Import your functions
+import numpy as np
 
 
 app = Flask(__name__)
@@ -49,42 +51,180 @@ def financial_advice_page():
 # ✅ CROP PRICE PREDICTION
 # ======================================================================
 
-# Backend
+# # Backend
+# @app.route('/predict-price', methods=['POST'])
+# def predict_price():
+#     data = request.json
+#     crop = data.get('crop')
+#     month = int(data.get('month'))
+#     year = int(data.get('year'))
+#     rainfall = float(data.get('rainfall'))
+#     lang = data.get('language', 'en')
+    
+#     if crop not in commodity_info:
+#         return jsonify({'error': 'Invalid crop name'})
+    
+#     predicted_index, min_price, max_price, avg_price = model_predict(crop, month, year, rainfall)
+
+#     # ✅ Generate smooth graph data for visualization (dynamic)
+#     months = np.arange(1, 13)
+#     graph_data = []
+#     for m in months:
+#         _, _, _, avg = model_predict(crop, m, year, rainfall)
+#         graph_data.append({"month": m, "avg_price": avg})
+
+#     return jsonify({
+#         "crop": crop.capitalize(),
+#         "month": month,
+#         "year": year,
+#         "rainfall": rainfall,
+#         "min_price": min_price,
+#         "max_price": max_price,
+#         "avg_price": avg_price,
+#         "graph_data": graph_data
+#     })
+
+# # Frontend form
+# @app.route('/price-form')
+# def price_form():
+#     return render_template("crop_prediction.html")
+
+# @app.route("/get-price", methods=["POST"])
+# def get_price_html():
+#     crop = request.form.get("crop").lower()
+#     month = int(request.form.get("month"))
+#     year = int(request.form.get("year"))
+#     rainfall = float(request.form.get("rainfall"))
+#     lang = request.form.get("language", "en")
+
+#     # ✅ Predict using the imported model
+#     predicted_index, min_price, max_price, avg_price = model_predict(crop, month, year, rainfall)
+
+#     # ✅ Prepare graph data for smooth chart animation
+#     months = np.arange(1, 13)
+#     graph_data = []
+#     for m in months:
+#         _, _, _, avg = model_predict(crop, m, year, rainfall)
+#         graph_data.append({"month": m, "avg_price": avg})
+
+#     # ✅ Pass results to HTML
+#     result = {
+#         "crop": crop.capitalize(),
+#         "month": month,
+#         "year": year,
+#         "rainfall": rainfall,
+#         "min_price": min_price,
+#         "max_price": max_price,
+#         "avg_price": avg_price,
+#         "graph_data": graph_data
+#     }
+
+#     return render_template(
+#         "crop_prediction.html",
+#         result=result
+#     )
+
+
+# ==============================================================
+# ✅ BACKEND - Predict Price API
+# ==============================================================
 @app.route('/predict-price', methods=['POST'])
-def predict_price():
-    data = request.json
-    crop = data.get('crop')
-    month = int(data.get('month'))
-    year = int(data.get('year'))
-    rainfall = float(data.get('rainfall'))
-    lang = data.get('language', 'en')
+def predict_price_route():
+    try:
+        data = request.json
+        crop = data.get('crop').lower()
+        month = int(data.get('month'))
+        year = int(data.get('year'))
+        rainfall = float(data.get('rainfall'))
 
-    predicted_price = predict_crop_price(crop, month, year, rainfall, language=lang)
-    return jsonify(predicted_price)
+        # ✅ Validate crop
+        if crop not in crop_price.commodity_info:
+            return jsonify({'error': f'Invalid crop name: {crop}'}), 400
 
-# Frontend form
+        # ✅ Predict using crop_price.py function
+        predicted_index, min_price, max_price, avg_price = crop_price.predict_price(
+            crop, month, year, rainfall
+        )
+
+        # ✅ Generate smooth dynamic graph data (for each month)
+        months = np.arange(1, 13)
+        graph_data = []
+        for m in months:
+            _, _, _, avg = crop_price.predict_price(crop, m, year, rainfall)
+            graph_data.append({"month": int(m), "avg_price": float(avg)})
+
+        return jsonify({
+            "crop": crop.capitalize(),
+            "month": month,
+            "year": year,
+            "rainfall": rainfall,
+            "min_price": min_price,
+            "max_price": max_price,
+            "avg_price": avg_price,
+            "graph_data": graph_data
+        })
+
+    except Exception as e:
+        import traceback
+        return jsonify({"error": str(e), "trace": traceback.format_exc()}), 500
+
+
+# ==============================================================
+# ✅ FRONTEND FORM - HTML Page Rendering
+# ==============================================================
 @app.route('/price-form')
 def price_form():
     return render_template("crop_prediction.html")
 
+
+# ==============================================================
+# ✅ FORM SUBMISSION (for HTML)
+# ==============================================================
 @app.route("/get-price", methods=["POST"])
 def get_price_html():
-    crop = request.form.get("crop")
-    month = int(request.form.get("month"))
-    year = int(request.form.get("year"))
-    rainfall = float(request.form.get("rainfall"))
-    lang = request.form.get("language", "en")
+    try:
+        crop = request.form.get("crop").lower()
+        month = int(request.form.get("month"))
+        year = int(request.form.get("year"))
+        rainfall = float(request.form.get("rainfall"))
 
-    predicted_price = predict_crop_price(crop, month, year, rainfall, language=lang)
+        # ✅ Predict using the imported function
+        predicted_index, min_price, max_price, avg_price = crop_price.predict_price(
+            crop, month, year, rainfall
+        )
 
-    return render_template(
-        "crop_prediction.html",
-        result=predicted_price,
-        crop=crop,
-        month=month,
-        year=year,
-        rainfall=rainfall
-    )
+        # ✅ Prepare graph data for smooth chart animation
+        months = np.arange(1, 13)
+        graph_data = []
+        for m in months:
+            _, _, _, avg = crop_price.predict_price(crop, m, year, rainfall)
+            graph_data.append({"month": int(m), "avg_price": float(avg)})
+
+        # ✅ Pass results to HTML
+        result = {
+            "crop": crop.capitalize(),
+            "month": month,
+            "year": year,
+            "rainfall": rainfall,
+            "min_price": min_price,
+            "max_price": max_price,
+            "avg_price": avg_price,
+            "graph_data": graph_data
+        }
+
+        return render_template(
+            "crop_prediction.html",
+            result=result
+        )
+
+    except Exception as e:
+        import traceback
+        return render_template(
+            "crop_prediction.html",
+            error=str(e),
+            trace=traceback.format_exc()
+        )
+
 
 
 # ======================================================================
