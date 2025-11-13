@@ -2,20 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crop Price Prediction | Farmer Assistant</title>
+    <title>Crop Price Prediction</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-      body {
-        background: #f9fafb;
-        font-family: "Inter", sans-serif;
-      }
-    </style>
   </head>
 
-  <body class="min-h-screen flex flex-col">
-    <!-- ✅ NAVBAR -->
+  <body class="bg-green-50 min-h-screen text-gray-800">
+    <!-- Navbar -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
     >
@@ -23,7 +15,7 @@
       <div class="flex items-center gap-3">
         <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
         <h1 class="text-2xl font-bold tracking-wide text-green-700">
-          Farmer Assistant
+          Crop Price Prediction
         </h1>
       </div>
 
@@ -34,37 +26,18 @@
             id="featuresBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Features
+            Features <span class="text-sm">▼</span>
           </button>
+
           <div
             id="featuresMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <a
-              href="/financial-advice-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Financial Advisor</a
-            >
-            <a
-              href="/price-form"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Crop Prediction</a
-            >
-            <a
-              href="/loan-recommender"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Loan Recommender</a
-            >
-            <a
-              href="/expense-form"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Expense Tracker</a
-            >
-            <a
-              href="/budget-summary-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Budget Summary</a
-            >
+            <a href="/financial-advice-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Financial Advisor</a>
+            <a href="/price-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Crop Prediction</a>
+            <a href="/loan-recommender" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Loan Recommender</a>
+            <a href="/expense-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Expense Tracker</a>
+            <a href="/budget-summary-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Budget Summary</a>
           </div>
         </div>
 
@@ -74,18 +47,15 @@
             id="languageBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Language
+            Language <span class="text-sm">▼</span>
           </button>
+
           <div
             id="languageMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              English
-            </button>
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              Kannada
-            </button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">English</button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">Kannada</button>
           </div>
         </div>
 
@@ -99,194 +69,136 @@
       </div>
     </nav>
 
-    <!-- ✅ MAIN CONTENT -->
-    <main
-      class="flex flex-col md:flex-row justify-center items-center gap-10 px-10 py-10 flex-1"
-    >
-      <!-- FORM SECTION -->
-      <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-        <h2 class="text-2xl font-bold text-green-700 mb-6 text-center">
-          Crop Price Prediction
-        </h2>
-        <form id="predictionForm" class="space-y-5">
-          <div>
-            <label class="block font-medium mb-2">Select Crop</label>
-            <select
-              id="crop"
-              name="crop"
-              class="w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-green-300"
-              required
-            >
-              <option value="jowar">Jowar</option>
-              <option value="wheat">Wheat</option>
-              <option value="cotton">Cotton</option>
-              <option value="sugarcane">Sugarcane</option>
-              <option value="bajara">Bajara</option>
-            </select>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block font-medium mb-2">Month</label>
-              <input
-                type="number"
-                id="month"
-                name="month"
-                min="1"
-                max="12"
-                class="w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-green-300"
-                required
-              />
-            </div>
-            <div>
-              <label class="block font-medium mb-2">Year</label>
-              <input
-                type="number"
-                id="year"
-                name="year"
-                min="2020"
-                class="w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-green-300"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label class="block font-medium mb-2">Rainfall (mm)</label>
-            <input
-              type="number"
-              id="rainfall"
-              name="rainfall"
-              step="0.1"
-              class="w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-green-300"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-3 transition"
-          >
-            Predict Price
-          </button>
-        </form>
-      </div>
-
-      <!-- GRAPH SECTION -->
-      <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
+    <!-- Layout -->
+    <div class="flex justify-between items-start gap-10 p-20">
+      <!-- Left: Form -->
+      <form
+        id="predictForm"
+        class="bg-white shadow-xl border border-green-200 rounded-2xl p-8 w-3/5 space-y-6"
+      >
         <h2 class="text-2xl font-bold text-green-700 text-center mb-4">
-          Prediction Results
+          Enter Crop Details
         </h2>
 
-        <div id="result" class="hidden text-center mb-4">
-          <p
-            id="priceRange"
-            class="text-lg font-semibold text-gray-700 mb-1"
-          ></p>
-          <p id="avgPrice" class="text-lg text-gray-600"></p>
+        <div>
+          <label class="block font-semibold mb-2">Select Crop:</label>
+          <select
+            name="crop"
+            class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400"
+          >
+            <option value="jowar">Jowar</option>
+            <option value="wheat">Wheat</option>
+            <option value="cotton">Cotton</option>
+            <option value="sugarcane">Sugarcane</option>
+            <option value="bajara">Bajara</option>
+          </select>
         </div>
 
-        <div class="relative h-[400px]">
-          <canvas id="priceChart"></canvas>
+        <div>
+          <label class="block font-semibold mb-2">Select Month:</label>
+          <select
+            name="month"
+            class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400"
+          >
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
         </div>
-      </div>
-    </main>
 
-    <!-- ✅ SCRIPT -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <div>
+          <label class="block font-semibold mb-2">Year:</label>
+          <input
+            type="number"
+            name="year"
+            placeholder="Enter year (e.g., 2025)"
+            class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400"
+            required
+          />
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-2">Rainfall (mm):</label>
+          <input
+            type="number"
+            name="rainfall"
+            step="0.1"
+            placeholder="Enter rainfall in mm"
+            class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="bg-green-600 text-white px-6 py-3 w-full rounded-lg hover:bg-green-700 transition font-semibold shadow-md"
+        >
+          Predict Price
+        </button>
+      </form>
+
+      <!-- Right: Prediction Cards -->
+    <div id="result" class="flex flex-col justify-between w-2/5 space-y-8">
+    <div
+      id="minPriceCard"
+      class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+    >
+    <h3 class="text-xl font-bold text-green-700">Minimum Price</h3>
+    <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
+  </div>
+
+  <div
+    id="avgPriceCard"
+    class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+  >
+    <h3 class="text-xl font-bold text-green-700">Average Price</h3>
+    <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
+  </div>
+
+  <div
+    id="maxPriceCard"
+    class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+  >
+    <h3 class="text-xl font-bold text-green-700">Maximum Price</h3>
+    <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
+  </div>
+</div>
+
+
+
     <script>
-      // Dropdown Functionality
-      const featuresBtn = document.getElementById("featuresBtn");
-      const featuresMenu = document.getElementById("featuresMenu");
-      const languageBtn = document.getElementById("languageBtn");
-      const languageMenu = document.getElementById("languageMenu");
+      document
+        .getElementById("predictForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const jsonData = Object.fromEntries(formData.entries());
 
-      featuresBtn.addEventListener("click", () =>
-        featuresMenu.classList.toggle("hidden")
-      );
-      languageBtn.addEventListener("click", () =>
-        languageMenu.classList.toggle("hidden")
-      );
+          const res = await fetch("/predict-price", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(jsonData),
+          });
 
-      const form = document.getElementById("predictionForm");
-      const resultDiv = document.getElementById("result");
-      const priceRange = document.getElementById("priceRange");
-      const avgPrice = document.getElementById("avgPrice");
-      const ctx = document.getElementById("priceChart").getContext("2d");
+          const data = await res.json();
+          if (data.error) {
+            alert(data.error);
+            return;
+          }
 
-      const priceChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: [],
-          datasets: [
-            {
-              label: "Highest Price (₹)",
-              data: [],
-              backgroundColor: "rgba(34,197,94,0.8)",
-              borderRadius: 6,
-            },
-            {
-              label: "Lowest Price (₹)",
-              data: [],
-              backgroundColor: "rgba(132,204,22,0.6)",
-              borderRadius: 6,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { grid: { display: false } },
-            y: { grid: { display: false }, beginAtZero: true },
-          },
-          plugins: {
-            legend: { display: true, position: "top" },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => `₹ ${ctx.parsed.y.toFixed(2)}`,
-              },
-            },
-          },
-          animation: {
-            duration: 1000,
-            easing: "easeInOutQuart",
-          },
-        },
-      });
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const crop = document.getElementById("crop").value;
-        const month = document.getElementById("month").value;
-        const year = document.getElementById("year").value;
-        const rainfall = document.getElementById("rainfall").value;
-
-        const response = await fetch("/predict-price", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ crop, month, year, rainfall }),
+          document.querySelector("#minPriceCard p").innerText = `₹${data.min_price}`;
+          document.querySelector("#avgPriceCard p").innerText = `₹${data.avg_price}`;
+          document.querySelector("#maxPriceCard p").innerText = `₹${data.max_price}`;
         });
-
-        const data = await response.json();
-        if (data.error) return alert(data.error);
-
-        // Show results
-        resultDiv.classList.remove("hidden");
-        priceRange.textContent = `Price Range: ₹${data.min_price} - ₹${data.max_price}`;
-        avgPrice.textContent = `Average Price: ₹${data.avg_price}`;
-
-        // Update graph
-        const labels = data.graph_data.map((d) => `M${d.month}`);
-        const highs = data.graph_data.map((d) => d.max_price);
-        const lows = data.graph_data.map((d) => d.min_price);
-
-        priceChart.data.labels = labels;
-        priceChart.data.datasets[0].data = highs;
-        priceChart.data.datasets[1].data = lows;
-        priceChart.update();
-      });
     </script>
   </body>
 </html>

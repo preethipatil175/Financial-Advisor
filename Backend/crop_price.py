@@ -174,6 +174,7 @@ def main():
             print(f"\n An error occurred: {e}")
             print("Please try again.")
 
+
+
 if __name__ == "__main__":
-    # main()
-    pass
+    main()
