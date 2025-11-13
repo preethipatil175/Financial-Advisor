@@ -1,64 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget Summary</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Set Budget</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .sidebar {
-            backdrop-filter: blur(16px);
-            background: rgba(255, 255, 255, 0.7);
-        }
-    </style>
-</head>
-<body class="bg-gray-100 min-h-screen">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
 
-<!-- TOP NAV -->
-<nav class="px-6 py-4 flex justify-between items-center shadow-sm bg-white">
-    <h1 class="text-xl font-semibold tracking-wide text-green-700">💰 Budget Summary</h1>
-    <button id="menuBtn" class="text-3xl hover:opacity-70 transition">&#9776;</button>
-</nav>
+  <body class="bg-gray-100 min-h-screen">
+    <!-- NAVBAR (your code) -->
+    <nav
+      class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
+    >
+      <div class="flex items-center gap-3">
+        <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
+        <h1 class="text-2xl font-bold tracking-wide text-green-700">
+          Farmer Assistant
+        </h1>
+      </div>
 
-<!-- RIGHT SLIDE MENU -->
-<div id="sideMenu" class="sidebar fixed top-0 right-0 h-full w-56 px-6 py-6 translate-x-full transition-all duration-300 shadow-xl">
-    <button id="closeBtn" class="text-3xl mb-6 hover:opacity-70 transition">&times;</button>
-    <ul class="flex flex-col gap-5 text-lg font-medium">
-        <li><a href="/" class="hover:text-green-600">Home</a></li>
-        <li><a href="/financial-advice-page" class="hover:text-green-600">Financial Advisor</a></li>
-        <li><a href="/price-form" class="hover:text-green-600">Crop Price Prediction</a></li>
-        <li><a href="/expense-form" class="hover:text-green-600">Add Expense</a></li>
-        <li><a href="/budget-summary-page" class="hover:text-green-600 font-semibold text-green-700">Budget Summary</a></li>
-        <li><a href="/loan-recommender" class="hover:text-green-600">Loan Recommender</a></li>
-    </ul>
-</div>
+      <div class="flex items-center gap-10">
+        <div class="relative">
+          <button
+            id="featuresBtn"
+            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
+          >
+            Features <span class="text-sm">▼</span>
+          </button>
 
-<!-- PAGE CONTENT -->
-<div class="pt-10 flex justify-center p-4">
-    <div class="bg-white shadow-lg rounded-2xl w-full max-w-lg p-6">
-        <h2 class="text-2xl font-bold mb-4 text-center">Budget Summary</h2>
-        <div class="space-y-3">
-            {% for category, data in summary.items() %}
-            <div class="p-4 border border-gray-200 rounded hover:shadow-md transition">
-                <h3 class="font-semibold text-lg">{{ category }}</h3>
-                <p>Total Spent: <span class="font-bold">₹{{ data.total_spent }}</span></p>
-                <p>Remaining Budget: <span class="font-bold">₹{{ data.remaining }}</span></p>
-            </div>
-            {% endfor %}
+          <div
+            id="featuresMenu"
+            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
+          >
+            <a
+              href="/financial-advice-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Financial Advisor</a
+            >
+            <a
+              href="/price-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Crop Prediction</a
+            >
+            <a
+              href="/loan-recommender"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Loan Recommender</a
+            >
+            <a
+              href="/expense-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Expense Tracker</a
+            >
+            <a
+              href="/budget-summary-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Budget Summary</a
+            >
+            <a
+              href="/set-budget-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Set Budget</a
+            >
+          </div>
         </div>
-        <div class="flex justify-center mt-4">
-            <a href="/expense-form" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition">Add More Expenses</a>
-        </div>
+        <button>
+          <img
+            src="/static/login_icon.png"
+            class="h-10 w-10 hover:scale-110 transition"
+          />
+        </button>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex flex-col md:flex-row gap-10 p-10">
+      <!-- LEFT: Set budget -->
+      <div class="bg-white p-8 rounded-2xl shadow-xl w-full md:w-1/2">
+        <h2 class="text-2xl font-bold mb-6 text-green-700">
+          Set Your Monthly Budget
+        </h2>
+
+        <label class="font-semibold">Enter Budget Amount (₹):</label>
+        <input
+          id="budgetInput"
+          type="number"
+          min="0"
+          class="w-full p-3 border rounded-xl mt-2 mb-4"
+        />
+
+        <button
+          onclick="saveBudget()"
+          class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition w-full"
+        >
+          Save Budget
+        </button>
+
+        <p id="resultMsg" class="mt-4 text-lg font-semibold text-green-700"></p>
+      </div>
+
+      <!-- RIGHT: Pie Chart -->
+      <div class="bg-white p-8 rounded-2xl shadow-xl w-full md:w-1/2">
+        <h2 class="text-2xl font-bold mb-6 text-green-700">
+          Monthly Expense Breakdown
+        </h2>
+
+        <canvas id="expenseChart" class="w-full h-80"></canvas>
+      </div>
     </div>
-</div>
 
-<script>
-    const menuBtn = document.getElementById("menuBtn");
-    const closeBtn = document.getElementById("closeBtn");
-    const sideMenu = document.getElementById("sideMenu");
+    <script>
+      // Save budget
+      async function saveBudget() {
+        const amount = document.getElementById("budgetInput").value;
 
-    menuBtn.onclick = () => sideMenu.classList.remove("translate-x-full");
-    closeBtn.onclick = () => sideMenu.classList.add("translate-x-full");
-</script>
+        const res = await fetch("/set-budget", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ budget: amount }),
+        });
 
-</body>
+        const data = await res.json();
+        document.getElementById("resultMsg").innerText = data.message;
+      }
+
+      // Load expense chart
+      async function loadChart() {
+        const res = await fetch("/expense-chart-data");
+        const data = await res.json();
+
+        new Chart(document.getElementById("expenseChart"), {
+          type: "pie",
+          data: {
+            labels: Object.keys(data),
+            datasets: [
+              {
+                data: Object.values(data),
+              },
+            ],
+          },
+        });
+      }
+
+      loadChart();
+    </script>
+  </body>
 </html>

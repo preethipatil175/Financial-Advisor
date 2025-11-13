@@ -1,80 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Expense</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Expense Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .sidebar {
-            backdrop-filter: blur(16px);
-            background: rgba(255, 255, 255, 0.7);
-        }
+      body {
+        background: linear-gradient(to right, #e6f9e6, #c8f2c8);
+      }
     </style>
-</head>
-<body class="bg-gray-100 min-h-screen">
+  </head>
+  <body class="min-h-screen">
+    <!-- ✅ NAVBAR -->
+    <nav
+      class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
+    >
+      <div class="flex items-center gap-3">
+        <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
+        <h1 class="text-2xl font-bold tracking-wide text-green-700">
+          Expense Tracker
+        </h1>
+      </div>
 
-<!-- TOP NAV -->
-<nav class="px-6 py-4 flex justify-between items-center shadow-sm bg-white">
-    <h1 class="text-xl font-semibold tracking-wide text-green-700">💰 Add Expense</h1>
-    <button id="menuBtn" class="text-3xl hover:opacity-70 transition">&#9776;</button>
-</nav>
+      <div class="flex items-center gap-10">
+        <!-- ✅ FEATURES DROPDOWN -->
+        <div class="relative">
+          <button
+            id="featuresBtn"
+            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
+          >
+            Features <span class="text-sm">▼</span>
+          </button>
+          <div
+            id="featuresMenu"
+            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
+          >
+            <a
+              href="/financial-advice-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Financial Advisor</a
+            >
+            <a
+              href="/price-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Crop Prediction</a
+            >
+            <a
+              href="/loan-recommender"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Loan Recommender</a
+            >
+            <a
+              href="/expense-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Expense Tracker</a
+            >
+            <a
+              href="/budget-summary-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Budget Summary</a
+            >
+          </div>
+        </div>
 
-<!-- RIGHT SLIDE MENU -->
-<div id="sideMenu" class="sidebar fixed top-0 right-0 h-full w-56 px-6 py-6 translate-x-full transition-all duration-300 shadow-xl">
-    <button id="closeBtn" class="text-3xl mb-6 hover:opacity-70 transition">&times;</button>
-    <ul class="flex flex-col gap-5 text-lg font-medium">
-        <li><a href="/" class="hover:text-green-600">Home</a></li>
-        <li><a href="/financial-advice-page" class="hover:text-green-600">Financial Advisor</a></li>
-        <li><a href="/price-form" class="hover:text-green-600">Crop Price Prediction</a></li>
-        <li><a href="/budget-summary-page" class="hover:text-green-600">Budget Summary</a></li>
-        <li><a href="/loan-recommender" class="hover:text-green-600">Loan Recommender</a></li>
-    </ul>
-</div>
+        <!-- ✅ LANGUAGE DROPDOWN -->
+        <div class="relative">
+          <button
+            id="languageBtn"
+            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
+          >
+            Language <span class="text-sm">▼</span>
+          </button>
+          <div
+            id="languageMenu"
+            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
+          >
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+              English
+            </button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+              Kannada
+            </button>
+          </div>
+        </div>
 
-<!-- PAGE CONTENT -->
-<div class="pt-10 flex justify-center p-4">
-    <div class="bg-white shadow-lg rounded-2xl w-full max-w-md p-6">
+        <!-- ✅ LOGIN ICON -->
+        <button>
+          <img
+            src="/static/login_icon.png"
+            class="h-10 w-10 hover:scale-110 transition"
+          />
+        </button>
+      </div>
+    </nav>
+
+    <!-- 🌿 MAIN CONTENT -->
+    <div class="grid grid-cols-5 gap-6 p-8">
+      <!-- LEFT (Form - 3/5) -->
+      <div
+        class="col-span-3 bg-white rounded-2xl shadow-xl p-8 border border-green-200"
+      >
+        <h2 class="text-2xl font-bold text-green-700 mb-6 text-center">
+          Add New Expense
+        </h2>
         <form action="/add-expense-page" method="POST" class="space-y-4">
-            <h2 class="text-2xl font-bold mb-4 text-center">Add New Expense</h2>
-            <div>
-                <label class="block text-gray-700">Expense Name:</label>
-                <input type="text" name="name" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-            <div>
-                <label class="block text-gray-700">Amount (Rs.):</label>
-                <input type="number" name="amount" step="0.01" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-            <div>
-                <label class="block text-gray-700">Category:</label>
-                <select name="category" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    {% for c in categories %}
-                        <option value="{{ c }}">{{ c }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label class="block text-gray-700">Date (YYYY-MM-DD):</label>
-                <input type="date" name="date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">Save Expense</button>
+          <div>
+            <label class="block text-gray-700">Expense Name:</label>
+            <input
+              type="text"
+              name="name"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700">Amount (Rs.):</label>
+            <input
+              type="number"
+              name="amount"
+              step="0.01"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700">Category:</label>
+            <select
+              name="category"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
+            >
+              {% for c in categories %}
+              <option value="{{ c }}">{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-700">Date:</label>
+            <input
+              type="date"
+              name="date"
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
+          >
+            Save Expense
+          </button>
         </form>
 
         {% if result %}
         <div class="mt-4 p-3 bg-green-100 text-green-800 rounded">
-            <p>{{ result }}</p>
+          <p>{{ result }}</p>
         </div>
         {% endif %}
+      </div>
+
+      <!-- RIGHT (Recent Expenses - 2/5) -->
+      <div
+        class="col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-green-200"
+      >
+        <h2 class="text-xl font-bold text-green-700 mb-4 text-center">
+          Recently Added
+        </h2>
+        {% if recent_expenses %}
+        <ul class="space-y-3">
+          {% for exp in recent_expenses %}
+          <li
+            class="border-b border-gray-200 pb-2 flex justify-between items-center"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">
+                {{ exp.name }} (₹{{ exp.amount }})
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ exp.category }} — {{ exp.date }}
+              </p>
+            </div>
+            <form action="/delete-expense/{{ loop.index0 }}" method="POST">
+              <button
+                type="submit"
+                class="text-red-500 hover:text-red-700 text-sm font-medium"
+              >
+                Delete
+              </button>
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+
+        {% else %}
+        <p class="text-gray-500 text-center">No expenses yet.</p>
+        {% endif %}
+      </div>
     </div>
-</div>
 
-<script>
-    const menuBtn = document.getElementById("menuBtn");
-    const closeBtn = document.getElementById("closeBtn");
-    const sideMenu = document.getElementById("sideMenu");
-
-    menuBtn.onclick = () => sideMenu.classList.remove("translate-x-full");
-    closeBtn.onclick = () => sideMenu.classList.add("translate-x-full");
-</script>
-
-</body>
+    <script>
+      // Dropdown toggles
+      document.getElementById("featuresBtn").onclick = () =>
+        document.getElementById("featuresMenu").classList.toggle("hidden");
+      document.getElementById("languageBtn").onclick = () =>
+        document.getElementById("languageMenu").classList.toggle("hidden");
+    </script>
+  </body>
 </html>
