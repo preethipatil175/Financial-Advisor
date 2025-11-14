@@ -221,6 +221,54 @@ def delete_expense(index):
 
 # --------Budget Tracker---------
 
+# @app.route('/set-budget', methods=['POST'])
+# def set_budget():
+#     try:
+#         data = request.get_json()
+#         amount = float(data.get("amount", 0))
+#         tracker.set_budget(amount)
+#         return jsonify({"message": "Budget updated successfully!"})
+#     except:
+#         return jsonify({"error": "Invalid amount"}), 400
+    
+
+# # Backend budget summary
+# @app.route('/budget-status', methods=['GET'])
+# def budget_status():
+#     budget = tracker.get_budget()
+#     summary = tracker.get_summary(budget)
+#     return jsonify(summary)
+
+# # Frontend budget summary
+# @app.route('/budget-summary-page')
+# def budget_summary_html():
+#     budget = tracker.get_budget()
+#     summary = tracker.get_summary(budget)
+#     return render_template("budget_summary.html", summary=summary)
+
+# # ===============================
+# # PIE CHART DATA API
+# # ===============================
+
+# @app.route('/expense-chart-data', methods=['GET'])
+# def expense_chart_data():
+#     expenses = tracker.get_all_expenses()
+
+#     category_totals = {}
+#     for e in expenses:
+#         category = e["category"]
+#         category_totals[category] = category_totals.get(category, 0) + float(e["amount"])
+
+#     labels = list(category_totals.keys())
+#     values = list(category_totals.values())
+
+#     return jsonify({"labels": labels, "values": values})
+
+# ===============================
+# BUDGET — SET & VIEW
+# ===============================
+
+# Save budget amount
 @app.route('/set-budget', methods=['POST'])
 def set_budget():
     try:
@@ -230,21 +278,23 @@ def set_budget():
         return jsonify({"message": "Budget updated successfully!"})
     except:
         return jsonify({"error": "Invalid amount"}), 400
-    
 
-# Backend budget summary
+
+# API — Get budget + summary (JSON)
 @app.route('/budget-status', methods=['GET'])
 def budget_status():
     budget = tracker.get_budget()
     summary = tracker.get_summary(budget)
     return jsonify(summary)
 
-# Frontend budget summary
+
+# HTML page — Budget summary page (loads chart + summary)
 @app.route('/budget-summary-page')
 def budget_summary_html():
     budget = tracker.get_budget()
     summary = tracker.get_summary(budget)
     return render_template("budget_summary.html", summary=summary)
+
 
 # ===============================
 # PIE CHART DATA API
@@ -257,12 +307,9 @@ def expense_chart_data():
     category_totals = {}
     for e in expenses:
         category = e["category"]
-        category_totals[category] = category_totals.get(category, 0) + float(e["amount"])
+        category_totals[category] = category_totals.get(category, 0) + e["amount"]
 
-    labels = list(category_totals.keys())
-    values = list(category_totals.values())
-
-    return jsonify({"labels": labels, "values": values})
+    return jsonify(category_totals)
 
 
 # ======================================================================

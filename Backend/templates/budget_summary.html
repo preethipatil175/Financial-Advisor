@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Set Budget</title>
+    <title>Budget Summary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body class="bg-gray-100 min-h-screen">
-    <!-- NAVBAR (your code) -->
+    <!-- NAVBAR -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
     >
@@ -110,21 +110,21 @@
     </div>
 
     <script>
-      // Save budget
+      // Save budget (fix: send key "amount")
       async function saveBudget() {
         const amount = document.getElementById("budgetInput").value;
 
         const res = await fetch("/set-budget", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ budget: amount }),
+          body: JSON.stringify({ amount: amount }),
         });
 
         const data = await res.json();
         document.getElementById("resultMsg").innerText = data.message;
       }
 
-      // Load expense chart
+      // Load expense chart (fix: use data.labels + data.values)
       async function loadChart() {
         const res = await fetch("/expense-chart-data");
         const data = await res.json();
@@ -132,10 +132,10 @@
         new Chart(document.getElementById("expenseChart"), {
           type: "pie",
           data: {
-            labels: Object.keys(data),
+            labels: data.labels,
             datasets: [
               {
-                data: Object.values(data),
+                data: data.values,
               },
             ],
           },
