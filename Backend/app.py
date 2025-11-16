@@ -4,7 +4,6 @@ from kannadacrop import predict_crop_price
 from exp_budget import FarmerExpenseTracker
 from loan_system import get_loan_recommendation
 from crop_price import predict_price
-import os
 
 
 app = Flask(__name__)
@@ -311,46 +310,32 @@ def expense_chart_data():
 
     return jsonify(category_totals)
 
+# ==========================
+# LOAN RECOMMENDER
+# ==========================
 
-# # ======================================================================
-# # ✅ LOAN RECOMMENDER
-# # ======================================================================
-@app.route('/loan-recommender-page')
+@app.route('/loan-recommender-page', methods=['GET'])
 def loan_recommender_page():
-    return render_template("loan_recommender.html")
+    return render_template("loan_recommendation.html")   # Loads HTML page
 
 
 @app.route('/loan-recommender', methods=['POST'])
 def loan_recommend_route():
     try:
-        data = request.get_json(force=True)
+        data = request.get_json()
 
-        # Extract fields
         land_type = data.get('LandType')
-        land_size = data.get('LandSize')
+        land_size = float(data.get('LandSize'))
         location = data.get('Location')
         crop = data.get('CropType')
-        income = data.get('Income')
+        income = int(data.get('Income'))
 
-        # Validate required fields
-        required = [land_type, land_size, location, crop, income]
-        if any(field is None or field == "" for field in required):
-            return jsonify({"error": "All fields are required"}), 400
-
-        # Numeric conversions
-        land_size = float(land_size)
-        income = int(income)
-
-        # Get prediction
         result = get_loan_recommendation(land_type, land_size, location, crop, income)
-
-        # ❗ IMPORTANT → return plain result so HTML can access recommended_loan
         return jsonify(result)
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
+        return jsonify({"error": str(e)}), 400
+    
 
 if __name__ == '__main__':
     print("✅ Starting Flask server...")
