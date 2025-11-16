@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Recommender</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        padding: 20px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <!-- =================== NAVBAR =================== -->
+    <nav
+      class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
+    >
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
+        <h1 class="text-2xl font-bold tracking-wide text-green-700">
+          Farmer Assistant
+        </h1>
+      </div>
+
+      <div class="flex items-center gap-10">
+        <!-- FEATURES DROPDOWN -->
+        <div class="relative">
+          <button
+            id="featuresBtn"
+            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
+          >
+            Features <span class="text-sm">▼</span>
+          </button>
+
+          <div
+            id="featuresMenu"
+            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
+          >
+            <a
+              href="/financial-advice-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Financial Advisor</a
+            >
+            <a
+              href="/price-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Crop Prediction</a
+            >
+            <a
+              href="/loan-recommender-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Loan Recommender</a
+            >
+            <a
+              href="/expense-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Expense Tracker</a
+            >
+            <a
+              href="/budget-summary-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Budget Summary</a
+            >
+            <a
+              href="/loan-recommender-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Loan Recommender</a
+            >
+          </div>
+        </div>
+
+        <!-- LANGUAGE DROPDOWN -->
+        <div class="relative">
+          <button
+            id="languageBtn"
+            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
+          >
+            Language <span class="text-sm">▼</span>
+          </button>
+
+          <div
+            id="languageMenu"
+            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
+          >
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+              English
+            </button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+              Kannada
+            </button>
+          </div>
+        </div>
+
+        <!-- LOGIN ICON -->
+        <button>
+          <img
+            src="/static/login_icon.png"
+            class="h-10 w-10 hover:scale-110 transition"
+          />
+        </button>
+      </div>
+    </nav>
+
+    <!-- ============ PAGE CONTENT GRID (60% / 40%) ============ -->
+    <div class="grid grid-cols-5 gap-6 mt-10">
+      <!-- LEFT SECTION (60%) -->
+      <div class="col-span-3 bg-white shadow-xl rounded-xl p-8">
+        <h2 class="text-3xl font-bold text-green-700 mb-6">
+          Loan Recommender Form
+        </h2>
+
+        <div class="space-y-5">
+          <!-- Land Type -->
+          <div>
+            <label class="font-semibold">Land Type</label>
+            <select id="landType" class="w-full p-3 mt-1 border rounded-lg">
+              <option value="Irrigated">Irrigated</option>
+              <option value="Rainfed">Rainfed</option>
+              <option value="Dry">Dry</option>
+              <option value="Leased">Leased</option>
+            </select>
+          </div>
+
+          <!-- Land Size -->
+          <div>
+            <label class="font-semibold">Land Size (Acres)</label>
+            <input
+              type="number"
+              id="landSize"
+              class="w-full p-3 mt-1 border rounded-lg"
+            />
+          </div>
+
+          <!-- Location -->
+          <div>
+            <label class="font-semibold">Location</label>
+            <select id="location" class="w-full p-3 mt-1 border rounded-lg">
+              <option value="Bangalore">Bangalore</option>
+              <option value="Mysore">Mysore</option>
+              <option value="Hassan">Hassan</option>
+              <option value="Belagavi">Belagavi</option>
+              <option value="Tumkur">Tumkur</option>
+            </select>
+          </div>
+
+          <!-- Crop Type -->
+          <div>
+            <label class="font-semibold">Crop Type</label>
+            <select id="cropType" class="w-full p-3 mt-1 border rounded-lg">
+              <option value="Wheat">Wheat</option>
+              <option value="Rice">Rice</option>
+              <option value="Maize">Maize</option>
+              <option value="Sugarcane">Sugarcane</option>
+              <option value="Cotton">Cotton</option>
+            </select>
+          </div>
+
+          <!-- Income -->
+          <div>
+            <label class="font-semibold">Annual Income (₹)</label>
+            <input
+              type="number"
+              id="income"
+              class="w-full p-3 mt-1 border rounded-lg"
+            />
+          </div>
+
+          <button
+            onclick="submitLoanForm()"
+            class="w-full bg-green-600 hover:bg-green-700 transition text-white font-bold p-3 rounded-lg"
+          >
+            Get Recommendation
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT SECTION (40%) -->
+      <div class="col-span-2 bg-white shadow-xl rounded-xl p-8">
+        <h2 class="text-3xl font-bold text-green-700 mb-6">
+          Loan Recommendation
+        </h2>
+
+        <div
+          id="resultBox"
+          class="hidden p-5 rounded-lg bg-green-50 border border-green-300 text-lg"
+        ></div>
+      </div>
+    </div>
+
+    <!-- =================== JS FOR FORM & DROPDOWNS =================== -->
+    <script>
+      document.getElementById("featuresBtn").onclick = () => {
+        document.getElementById("featuresMenu").classList.toggle("hidden");
+      };
+
+      document.getElementById("languageBtn").onclick = () => {
+        document.getElementById("languageMenu").classList.toggle("hidden");
+      };
+
+      function submitLoanForm() {
+        let data = {
+          LandType: document.getElementById("landType").value,
+          LandSize: document.getElementById("landSize").value,
+          Location: document.getElementById("location").value,
+          CropType: document.getElementById("cropType").value,
+          Income: document.getElementById("income").value,
+        };
+
+        fetch("/loan-recommender", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            let box = document.getElementById("resultBox");
+            box.classList.remove("hidden");
+
+            if (res.error) {
+              box.innerHTML = `<b>Error:</b> ${res.error}`;
+            } else {
+              box.innerHTML = `
+                    <p><b>Loan Type:</b> ${res.recommended_loan}</p>
+                    <p><b>Loan Amount:</b> ₹${res.loan_amount}</p>
+                    <p><b>Interest Rate:</b> ${res.interest_rate}%</p>
+                    <p><b>Reason:</b> ${res.reason}</p>
+                `;
+            }
+          });
+      }
+    </script>
+  </body>
+</html>
