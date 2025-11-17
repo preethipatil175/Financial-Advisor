@@ -3,39 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Loan Recommender</title>
+    <title>Loan Recommender | Farmer Assistant</title>
 
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
       body {
-        padding: 20px;
+        background-color: #f8faf5;
+        font-family: "Inter", sans-serif;
       }
     </style>
   </head>
 
-  <body class="bg-gray-100">
-    <!-- =================== NAVBAR =================== -->
+  <body class="min-h-screen flex flex-col">
+    <!-- ============================== -->
+    <!-- NAVBAR WITH HOME BUTTON -->
+    <!-- ============================== -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
     >
-      <!-- Logo -->
+      <!-- Logo + Title -->
       <div class="flex items-center gap-3">
         <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
         <h1 class="text-2xl font-bold tracking-wide text-green-700">
-          Farmer Assistant
+          Loan Recommender
         </h1>
       </div>
 
       <div class="flex items-center gap-10">
+        <!-- ⭐ HOME BUTTON -->
+        <a
+          href="/"
+          class="font-semibold text-lg hover:text-green-700 transition"
+        >
+          Home
+        </a>
+
         <!-- FEATURES DROPDOWN -->
         <div class="relative">
           <button
             id="featuresBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Features <span class="text-sm">▼</span>
+            Features 
           </button>
 
           <div
@@ -53,7 +63,7 @@
               >Crop Prediction</a
             >
             <a
-              href="/loan-recommender-page"
+              href="/loan-recommender"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Loan Recommender</a
             >
@@ -67,11 +77,6 @@
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Budget Summary</a
             >
-            <a
-              href="/loan-recommender-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Loan Recommender</a
-            >
           </div>
         </div>
 
@@ -81,7 +86,7 @@
             id="languageBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Language <span class="text-sm">▼</span>
+            Language 
           </button>
 
           <div
@@ -97,7 +102,7 @@
           </div>
         </div>
 
-        <!-- LOGIN ICON -->
+        <!-- Login Icon -->
         <button>
           <img
             src="/static/login_icon.png"
@@ -107,132 +112,186 @@
       </div>
     </nav>
 
-    <!-- ============ PAGE CONTENT GRID (60% / 40%) ============ -->
-    <div class="grid grid-cols-5 gap-6 mt-10">
-      <!-- LEFT SECTION (60%) -->
-      <div class="col-span-3 bg-white shadow-xl rounded-xl p-8">
-        <h2 class="text-3xl font-bold text-green-700 mb-6">
-          Loan Recommender Form
-        </h2>
+    <!-- ============================== -->
+    <!-- MAIN CONTENT AREA -->
+    <!-- ============================== -->
+    <div class="flex flex-row w-full gap-6 p-5">
+      <!-- ============================== -->
+      <!-- ⭐ LEFT SIDE — FORM (60%) -->
+      <!-- ============================== -->
+      <div
+        class="w-[60%] bg-white p-8 rounded-2xl shadow-lg border border-gray-200"
+      >
+        <h2 class="text-2xl font-bold text-green-700 mb-6">Loan Recommender</h2>
 
-        <div class="space-y-5">
+        <form id="loanForm" class="space-y-5">
           <!-- Land Type -->
           <div>
-            <label class="font-semibold">Land Type</label>
-            <select id="landType" class="w-full p-3 mt-1 border rounded-lg">
-              <option value="Irrigated">Irrigated</option>
-              <option value="Rainfed">Rainfed</option>
-              <option value="Dry">Dry</option>
-              <option value="Leased">Leased</option>
+            <label class="block font-semibold mb-1">Land Type</label>
+            <select id="land_type" class="w-full border rounded-lg p-2">
+              <option value="">Select</option>
+              <option>Irrigated</option>
+              <option>Rainfed</option>
+              <option>Wetland</option>
+              <option>Dryland</option>
+              <option>Black cotton soil</option>
+              <option>Hill slope</option>
+              <option>Coastal loamy</option>
             </select>
           </div>
 
           <!-- Land Size -->
           <div>
-            <label class="font-semibold">Land Size (Acres)</label>
+            <label class="block font-semibold mb-1">Land Size (acres)</label>
             <input
+              id="land_size"
               type="number"
-              id="landSize"
-              class="w-full p-3 mt-1 border rounded-lg"
+              class="w-full border rounded-lg p-2"
+              placeholder="Enter size in acres"
             />
           </div>
 
           <!-- Location -->
           <div>
-            <label class="font-semibold">Location</label>
-            <select id="location" class="w-full p-3 mt-1 border rounded-lg">
-              <option value="Bangalore">Bangalore</option>
-              <option value="Mysore">Mysore</option>
-              <option value="Hassan">Hassan</option>
-              <option value="Belagavi">Belagavi</option>
-              <option value="Tumkur">Tumkur</option>
+            <label class="block font-semibold mb-1">Location</label>
+            <select id="location" class="w-full border rounded-lg p-2">
+              <option value="">Select Location</option>
+              <option>Tumkuru</option>
+              <option>Mandya</option>
+              <option>Belgaum</option>
+              <option>Dharwad</option>
+              <option>Hassan</option>
+              <option>Raichur</option>
+              <option>Mysuru</option>
+              <option>Shivamogga</option>
+              <option>Vijayapura</option>
+              <option>Bagalkot</option>
+              <option>Kalaburagi</option>
+              <option>Belagavi</option>
+              <option>Chitradurga</option>
+              <option>Ballari</option>
+              <option>Koppal</option>
+              <option>Bidar</option>
+              <option>Chikkamagaluru</option>
+              <option>Gadag</option>
+              <option>Haveri</option>
+              <option>Kodagu</option>
+              <option>Ramanagara</option>
+              <option>Kolar</option>
+              <option>Chikkaballapur</option>
+              <option>Udupi</option>
+              <option>Uttara Kannada</option>
             </select>
           </div>
 
           <!-- Crop Type -->
           <div>
-            <label class="font-semibold">Crop Type</label>
-            <select id="cropType" class="w-full p-3 mt-1 border rounded-lg">
-              <option value="Wheat">Wheat</option>
-              <option value="Rice">Rice</option>
-              <option value="Maize">Maize</option>
-              <option value="Sugarcane">Sugarcane</option>
-              <option value="Cotton">Cotton</option>
+            <label class="block font-semibold mb-1">Crop Type</label>
+            <select id="crop" class="w-full border rounded-lg p-2">
+              <option value="">Select Crop</option>
+              <option>Rice</option>
+              <option>Wheat</option>
+              <option>Cotton</option>
+              <option>Sugarcane</option>
+              <option>Pulses</option>
+              <option>Millets</option>
+              <option>Coffee</option>
+              <option>Tea</option>
+              <option>Mango</option>
+              <option>Banana</option>
+              <option>Groundnut</option>
+              <option>Silk</option>
+              <option>Fish Farming</option>
+              <option>Beekeeping</option>
+              <option>Organic Vegetables</option>
+              <option>Floriculture</option>
+              <option>Coconut</option>
+              <option>Maize</option>
             </select>
           </div>
 
           <!-- Income -->
           <div>
-            <label class="font-semibold">Annual Income (₹)</label>
+            <label class="block font-semibold mb-1">Annual Income (₹)</label>
             <input
-              type="number"
               id="income"
-              class="w-full p-3 mt-1 border rounded-lg"
+              type="number"
+              class="w-full border rounded-lg p-2"
+              placeholder="Enter income"
             />
           </div>
 
+          <!-- Submit Button -->
           <button
+            type="button"
             onclick="submitLoanForm()"
-            class="w-full bg-green-600 hover:bg-green-700 transition text-white font-bold p-3 rounded-lg"
+            class="w-full bg-green-700 text-white py-2 rounded-lg font-semibold hover:bg-green-800 transition"
           >
-            Get Recommendation
+            Get Loan Recommendation
           </button>
-        </div>
+        </form>
       </div>
 
-      <!-- RIGHT SECTION (40%) -->
-      <div class="col-span-2 bg-white shadow-xl rounded-xl p-8">
-        <h2 class="text-3xl font-bold text-green-700 mb-6">
-          Loan Recommendation
-        </h2>
+      <!-- ============================== -->
+      <!-- ⭐ RIGHT SIDE — OUTPUT (40%) -->
+      <!-- ============================== -->
+      <div
+        class="w-[40%] bg-white p-6 rounded-2xl shadow-lg border border-gray-200"
+      >
+        <h2 class="text-2xl font-bold text-green-700 mb-4">Loan Result</h2>
 
         <div
           id="resultBox"
-          class="hidden p-5 rounded-lg bg-green-50 border border-green-300 text-lg"
-        ></div>
+          class="bg-gray-50 border p-4 rounded-lg h-[80%] overflow-y-auto text-gray-800"
+        >
+          Fill the form to see your result.
+        </div>
       </div>
     </div>
 
-    <!-- =================== JS FOR FORM & DROPDOWNS =================== -->
+    <!-- ============================== -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================== -->
     <script>
-      document.getElementById("featuresBtn").onclick = () => {
-        document.getElementById("featuresMenu").classList.toggle("hidden");
+      // Dropdown menu toggle
+      const toggleMenu = (btn, menu) => {
+        document.getElementById(btn).addEventListener("click", () => {
+          document.getElementById(menu).classList.toggle("hidden");
+        });
       };
 
-      document.getElementById("languageBtn").onclick = () => {
-        document.getElementById("languageMenu").classList.toggle("hidden");
-      };
+      toggleMenu("featuresBtn", "featuresMenu");
+      toggleMenu("languageBtn", "languageMenu");
 
-      function submitLoanForm() {
-        let data = {
-          LandType: document.getElementById("landType").value,
-          LandSize: document.getElementById("landSize").value,
+      // Submit form
+      async function submitLoanForm() {
+        const payload = {
+          LandType: document.getElementById("land_type").value,
+          LandSize: document.getElementById("land_size").value,
           Location: document.getElementById("location").value,
-          CropType: document.getElementById("cropType").value,
+          CropType: document.getElementById("crop").value,
           Income: document.getElementById("income").value,
         };
 
-        fetch("/loan-recommender", {
+        const box = document.getElementById("resultBox");
+        box.innerHTML = "Processing your information...";
+
+        const res = await fetch("/loan-recommender-page", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            let box = document.getElementById("resultBox");
-            box.classList.remove("hidden");
+          body: JSON.stringify(payload),
+        });
 
-            if (res.error) {
-              box.innerHTML = `<b>Error:</b> ${res.error}`;
-            } else {
-              box.innerHTML = `
-                    <p><b>Loan Type:</b> ${res.recommended_loan}</p>
-                    <p><b>Loan Amount:</b> ₹${res.loan_amount}</p>
-                    <p><b>Interest Rate:</b> ${res.interest_rate}%</p>
-                    <p><b>Reason:</b> ${res.reason}</p>
+        const data = await res.json();
+
+        if (data.error) {
+          box.innerHTML = `<p class="text-red-600 font-semibold">${data.error}</p>`;
+        } else {
+          box.innerHTML = `
+                    <p><b>Best Loan:</b> ${data.best_loan}</p>
+                    <p><b>Other Options:</b> ${data.other_loans.join(", ")}</p>
                 `;
-            }
-          });
+        }
       }
     </script>
   </body>

@@ -218,50 +218,7 @@ def delete_expense(index):
     return redirect("/expense-form")
 
 
-# --------Budget Tracker---------
 
-# @app.route('/set-budget', methods=['POST'])
-# def set_budget():
-#     try:
-#         data = request.get_json()
-#         amount = float(data.get("amount", 0))
-#         tracker.set_budget(amount)
-#         return jsonify({"message": "Budget updated successfully!"})
-#     except:
-#         return jsonify({"error": "Invalid amount"}), 400
-    
-
-# # Backend budget summary
-# @app.route('/budget-status', methods=['GET'])
-# def budget_status():
-#     budget = tracker.get_budget()
-#     summary = tracker.get_summary(budget)
-#     return jsonify(summary)
-
-# # Frontend budget summary
-# @app.route('/budget-summary-page')
-# def budget_summary_html():
-#     budget = tracker.get_budget()
-#     summary = tracker.get_summary(budget)
-#     return render_template("budget_summary.html", summary=summary)
-
-# # ===============================
-# # PIE CHART DATA API
-# # ===============================
-
-# @app.route('/expense-chart-data', methods=['GET'])
-# def expense_chart_data():
-#     expenses = tracker.get_all_expenses()
-
-#     category_totals = {}
-#     for e in expenses:
-#         category = e["category"]
-#         category_totals[category] = category_totals.get(category, 0) + float(e["amount"])
-
-#     labels = list(category_totals.keys())
-#     values = list(category_totals.values())
-
-#     return jsonify({"labels": labels, "values": values})
 
 # ===============================
 # BUDGET — SET & VIEW
@@ -294,11 +251,9 @@ def budget_summary_html():
     summary = tracker.get_summary(budget)
     return render_template("budget_summary.html", summary=summary)
 
-
 # ===============================
-# PIE CHART DATA API
+# PIE CHART DATA API (FIXED)
 # ===============================
-
 @app.route('/expense-chart-data', methods=['GET'])
 def expense_chart_data():
     expenses = tracker.get_all_expenses()
@@ -308,18 +263,22 @@ def expense_chart_data():
         category = e["category"]
         category_totals[category] = category_totals.get(category, 0) + e["amount"]
 
-    return jsonify(category_totals)
+    # Convert dictionary → chart format
+    labels = list(category_totals.keys())
+    values = list(category_totals.values())
+
+    return jsonify({"labels": labels, "values": values})
 
 # ==========================
 # LOAN RECOMMENDER
 # ==========================
 
-@app.route('/loan-recommender-page', methods=['GET'])
+@app.route('/loan-recommender', methods=['GET'])
 def loan_recommender_page():
     return render_template("loan_recommendation.html")   # Loads HTML page
 
 
-@app.route('/loan-recommender', methods=['POST'])
+@app.route('/loan-recommender-page', methods=['POST'])
 def loan_recommend_route():
     try:
         data = request.get_json()

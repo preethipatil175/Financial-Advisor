@@ -7,11 +7,11 @@
   </head>
 
   <body class="bg-green-50 min-h-screen text-gray-800">
-    <!-- Navbar -->
+    <!-- ⭐ REPLACED NAVBAR (Your Loan Recommender Navbar) -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
     >
-      <!-- Logo -->
+      <!-- Logo + Title -->
       <div class="flex items-center gap-3">
         <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
         <h1 class="text-2xl font-bold tracking-wide text-green-700">
@@ -20,51 +20,78 @@
       </div>
 
       <div class="flex items-center gap-10">
-        <!-- ✅ FEATURES DROPDOWN -->
+        <!-- ⭐ HOME BUTTON -->
+        <a
+          href="/"
+          class="font-semibold text-lg hover:text-green-700 transition"
+        >
+          Home
+        </a>
+
+        <!-- FEATURES DROPDOWN -->
         <div class="relative">
           <button
             id="featuresBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Features <span class="text-sm">▼</span>
+            Features
           </button>
 
           <div
             id="featuresMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <a href="/financial-advice-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Financial Advisor</a>
-            <a href="/price-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Crop Prediction</a>
-            <a href="/loan-recommender" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Loan Recommender</a>
-            <a href="/expense-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Expense Tracker</a>
-            <a href="/budget-summary-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Budget Summary</a>
             <a
-              href="/loan-recommender-page"
+              href="/financial-advice-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Financial Advisor</a
+            >
+            <a
+              href="/price-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Crop Prediction</a
+            >
+            <a
+              href="/loan-recommender"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Loan Recommender</a
+            >
+            <a
+              href="/expense-form"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Expense Tracker</a
+            >
+            <a
+              href="/budget-summary-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Budget Summary</a
             >
           </div>
         </div>
 
-        <!-- ✅ LANGUAGE DROPDOWN -->
+        <!-- LANGUAGE DROPDOWN -->
         <div class="relative">
           <button
             id="languageBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Language <span class="text-sm">▼</span>
+            Language
           </button>
 
           <div
             id="languageMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">English</button>
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">Kannada</button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+              English
+            </button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+              Kannada
+            </button>
           </div>
         </div>
 
-        <!-- ✅ LOGIN ICON -->
+        <!-- Login Icon -->
         <button>
           <img
             src="/static/login_icon.png"
@@ -152,35 +179,42 @@
       </form>
 
       <!-- Right: Prediction Cards -->
-    <div id="result" class="flex flex-col justify-between w-2/5 space-y-8">
-    <div
-      id="minPriceCard"
-      class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
-    >
-    <h3 class="text-xl font-bold text-green-700">Minimum Price</h3>
-    <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
-  </div>
+      <div id="result" class="flex flex-col justify-between w-2/5 space-y-8">
+        <div
+          id="minPriceCard"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+        >
+          <h3 class="text-xl font-bold text-green-700">Minimum Price</h3>
+          <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
+        </div>
 
-  <div
-    id="avgPriceCard"
-    class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
-  >
-    <h3 class="text-xl font-bold text-green-700">Average Price</h3>
-    <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
-  </div>
+        <div
+          id="avgPriceCard"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+        >
+          <h3 class="text-xl font-bold text-green-700">Average Price</h3>
+          <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
+        </div>
 
-  <div
-    id="maxPriceCard"
-    class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
-  >
-    <h3 class="text-xl font-bold text-green-700">Maximum Price</h3>
-    <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
-  </div>
-</div>
-
-
+        <div
+          id="maxPriceCard"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+        >
+          <h3 class="text-xl font-bold text-green-700">Maximum Price</h3>
+          <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
+        </div>
+      </div>
+    </div>
 
     <script>
+      document.getElementById("featuresBtn").onclick = () => {
+        document.getElementById("featuresMenu").classList.toggle("hidden");
+      };
+
+      document.getElementById("languageBtn").onclick = () => {
+        document.getElementById("languageMenu").classList.toggle("hidden");
+      };
+
       document
         .getElementById("predictForm")
         .addEventListener("submit", async (e) => {
@@ -200,9 +234,15 @@
             return;
           }
 
-          document.querySelector("#minPriceCard p").innerText = `₹${data.min_price}`;
-          document.querySelector("#avgPriceCard p").innerText = `₹${data.avg_price}`;
-          document.querySelector("#maxPriceCard p").innerText = `₹${data.max_price}`;
+          document.querySelector(
+            "#minPriceCard p"
+          ).innerText = `₹${data.min_price}`;
+          document.querySelector(
+            "#avgPriceCard p"
+          ).innerText = `₹${data.avg_price}`;
+          document.querySelector(
+            "#maxPriceCard p"
+          ).innerText = `₹${data.max_price}`;
         });
     </script>
   </body>
