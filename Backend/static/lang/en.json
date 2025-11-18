@@ -1,0 +1,14 @@
+{
+  "title_main": "Farmer Assistant",
+  "empowering": "Empowering Farmers with Smart Tools",
+  "features_financial": "Financial Advisor",
+  "features_financial_desc": "Plan your investments and savings smartly.",
+  "features_crop": "Crop Price Prediction",
+  "features_crop_desc": "Predict crop prices based on season & climate.",
+  "features_loan": "Loan Recommender",
+  "features_loan_desc": "Find the best loan options for you.",
+  "features_expense": "Expense Tracker",
+  "features_expense_desc": "Track and organize all farm expenses.",
+  "features_budget": "Budget Summary",
+  "features_budget_desc": "View your monthly financial health."
+}
