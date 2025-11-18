@@ -27,38 +27,45 @@
       #carouselTrack::-webkit-scrollbar {
         display: none;
       }
+      #featuresMenu a{
+        display:block;
+      }
     </style>
   </head>
 
   <body class="bg-gray-100 text-gray-900">
-    <!-- ✅ NAVBAR WITH CLICK DROPDOWNS -->
+    <!-- NAVBAR -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
     >
       <!-- Logo -->
       <div class="flex items-center gap-3">
         <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
-        <h1 class="text-2xl font-bold tracking-wide text-green-700">
+        <h1
+          id="title_main"
+          class="text-2xl font-bold tracking-wide text-green-700"
+        >
           Farmer Assistant
         </h1>
       </div>
+
       <div class="flex items-center gap-10">
-        <!-- ⭐ HOME BUTTON -->
+        <!-- HOME -->
         <a
           href="/"
+          id="nav_home"
           class="font-semibold text-lg hover:text-green-700 transition"
         >
           Home
         </a>
 
-      <div class="flex items-center gap-10">
-        <!-- ✅ FEATURES DROPDOWN -->
+        <!-- FEATURES DROPDOWN -->
         <div class="relative">
           <button
             id="featuresBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Features 
+            <span id="nav_features">Features</span>
           </button>
 
           <div
@@ -68,55 +75,75 @@
             <a
               href="/financial-advice-page"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Financial Advisor</a
+              id="features_financial"
             >
+              Financial Advisor
+            </a>
+
             <a
               href="/price-form"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Crop Prediction</a
+              id="features_crop"
             >
+              Crop Prediction
+            </a>
+
             <a
               href="/loan-recommender"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Loan Recommender</a
+              id="features_loan"
             >
+              Loan Recommender
+            </a>
+
             <a
               href="/expense-form"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Expense Tracker</a
+              id="features_expense"
             >
+              Expense Tracker
+            </a>
+
             <a
               href="/budget-summary-page"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Budget Summary</a
+              id="features_budget"
             >
-            
+              Budget Summary
+            </a>
           </div>
         </div>
 
-        <!-- ✅ LANGUAGE DROPDOWN -->
+        <!-- LANGUAGE DROPDOWN -->
         <div class="relative">
           <button
             id="languageBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Language 
+            <span id="nav_language">Language</span>
           </button>
 
           <div
             id="languageMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+            <button
+              onclick="loadLanguage('en')"
+              class="py-2 px-3 rounded hover:bg-green-100 transition"
+            >
               English
             </button>
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              Kannada
+
+            <button
+              onclick="loadLanguage('kn')"
+              class="py-2 px-3 rounded hover:bg-green-100 transition"
+            >
+              ಕನ್ನಡ
             </button>
           </div>
         </div>
 
-        <!-- ✅ LOGIN ICON ONLY -->
+        <!-- LOGIN ICON -->
         <button>
           <img
             src="/static/login_icon.png"
@@ -126,19 +153,21 @@
       </div>
     </nav>
 
-    <!-- ✅ HEADING -->
+    <!-- HEADING -->
     <section class="mt-24 text-center fade-in">
       <h1
+        id="title_main_big"
         class="text-6xl font-extrabold text-green-700 tracking-wide drop-shadow-lg"
       >
         Farmer Assistant
       </h1>
-      <p class="text-gray-700 mt-4 text-xl">
+
+      <p id="empowering" class="text-gray-700 mt-4 text-xl">
         Empowering Farmers with Smart Tools
       </p>
     </section>
 
-    <!-- ✅ 3 IMAGES PER ROW — SLIDER -->
+    <!-- IMAGE SLIDER -->
     <section class="mt-20 px-10 fade-in">
       <div class="relative w-full overflow-hidden rounded-xl shadow-lg">
         <div
@@ -171,13 +200,13 @@
           />
         </div>
 
-        <!-- Buttons -->
         <button
           id="prevBtn"
           class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 p-4 rounded-full shadow hover:bg-white"
         >
           &#10094;
         </button>
+
         <button
           id="nextBtn"
           class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 p-4 rounded-full shadow hover:bg-white"
@@ -187,34 +216,7 @@
       </div>
     </section>
 
-    <!-- ✅ CAROUSEL JS -->
-    <script>
-      let index = 0;
-      const track = document.getElementById("carouselTrack");
-      const images = track.children;
-      const total = Math.ceil(images.length / 3);
-
-      function updateCarousel() {
-        track.style.transform = `translateX(-${index * 100}%)`;
-      }
-
-      document.getElementById("nextBtn").onclick = () => {
-        index = (index + 1) % total;
-        updateCarousel();
-      };
-
-      document.getElementById("prevBtn").onclick = () => {
-        index = (index - 1 + total) % total;
-        updateCarousel();
-      };
-
-      setInterval(() => {
-        index = (index + 1) % total;
-        updateCarousel();
-      }, 4000);
-    </script>
-
-    <!-- ✅ FEATURES GRID -->
+    <!-- FEATURES GRID -->
     <section
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-20 px-10 mb-20 fade-in"
     >
@@ -223,8 +225,10 @@
         class="p-8 bg-white shadow rounded-2xl hover:shadow-2xl transition transform hover:-translate-y-2"
       >
         <img src="/static/icons/money.png" class="h-14 mb-4" />
-        <h3 class="text-2xl font-bold text-green-700">Financial Advisor</h3>
-        <p class="text-gray-600 mt-3">
+        <h3 id="financial_title" class="text-2xl font-bold text-green-700">
+          Financial Advisor
+        </h3>
+        <p id="financial_desc" class="text-gray-600 mt-3">
           Plan your investments and savings smartly.
         </p>
       </a>
@@ -234,8 +238,10 @@
         class="p-8 bg-white shadow rounded-2xl hover:shadow-2xl transition transform hover:-translate-y-2"
       >
         <img src="/static/icons/crop.png" class="h-14 mb-4" />
-        <h3 class="text-2xl font-bold text-green-700">Crop Price Prediction</h3>
-        <p class="text-gray-600 mt-3">
+        <h3 id="crop_title" class="text-2xl font-bold text-green-700">
+          Crop Price Prediction
+        </h3>
+        <p id="crop_desc" class="text-gray-600 mt-3">
           Predict crop prices based on season & climate.
         </p>
       </a>
@@ -245,8 +251,12 @@
         class="p-8 bg-white shadow rounded-2xl hover:shadow-2xl transition transform hover:-translate-y-2"
       >
         <img src="/static/icons/loan.png" class="h-14 mb-4" />
-        <h3 class="text-2xl font-bold text-green-700">Loan Recommender</h3>
-        <p class="text-gray-600 mt-3">Find the best loan options for you.</p>
+        <h3 id="loan_title" class="text-2xl font-bold text-green-700">
+          Loan Recommender
+        </h3>
+        <p id="loan_desc" class="text-gray-600 mt-3">
+          Find the best loan options for you.
+        </p>
       </a>
 
       <a
@@ -254,8 +264,12 @@
         class="p-8 bg-white shadow rounded-2xl hover:shadow-2xl transition transform hover:-translate-y-2"
       >
         <img src="/static/icons/expense.png" class="h-14 mb-4" />
-        <h3 class="text-2xl font-bold text-green-700">Expense Tracker</h3>
-        <p class="text-gray-600 mt-3">Track and organize all farm expenses.</p>
+        <h3 id="expense_title" class="text-2xl font-bold text-green-700">
+          Expense Tracker
+        </h3>
+        <p id="expense_desc" class="text-gray-600 mt-3">
+          Track and organize all farm expenses.
+        </p>
       </a>
 
       <a
@@ -263,12 +277,16 @@
         class="p-8 bg-white shadow rounded-2xl hover:shadow-2xl transition transform hover:-translate-y-2"
       >
         <img src="/static/icons/budget.png" class="h-14 mb-4" />
-        <h3 class="text-2xl font-bold text-green-700">Budget Summary</h3>
-        <p class="text-gray-600 mt-3">View your monthly financial health.</p>
+        <h3 id="budget_title" class="text-2xl font-bold text-green-700">
+          Budget Summary
+        </h3>
+        <p id="budget_desc" class="text-gray-600 mt-3">
+          View your monthly financial health.
+        </p>
       </a>
     </section>
 
-    <!-- ✅ CLICK DROPDOWN JS -->
+    <!-- DROPDOWN MENU JS -->
     <script>
       function setupDropdown(btnId, menuId) {
         const btn = document.getElementById(btnId);
@@ -288,6 +306,26 @@
 
       setupDropdown("featuresBtn", "featuresMenu");
       setupDropdown("languageBtn", "languageMenu");
+    </script>
+
+    <!-- LANGUAGE SYSTEM -->
+    <script>
+      async function loadLanguage(lang) {
+        const res = await fetch(`/static/lang/${lang}.json`);
+        const data = await res.json();
+
+        for (const key in data) {
+          const element = document.getElementById(key);
+          if (element) element.innerText = data[key];
+        }
+
+        localStorage.setItem("lang", lang);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const saved = localStorage.getItem("lang") || "en";
+        loadLanguage(saved);
+      });
     </script>
   </body>
 </html>
