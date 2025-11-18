@@ -3,16 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <title>Budget Summary</title>
+
+    <!-- Tailwind + Chart.js -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body class="bg-gray-100 min-h-screen">
-    <!-- ⭐ NEW NAVBAR (Same as Loan Recommender) -->
+    <!-- ⭐ NAVBAR -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
     >
-      <!-- Logo + Title -->
       <div class="flex items-center gap-3">
         <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
         <h1 class="text-2xl font-bold tracking-wide text-green-700">
@@ -21,7 +22,6 @@
       </div>
 
       <div class="flex items-center gap-10">
-        <!-- ⭐ HOME BUTTON -->
         <a
           href="/"
           class="font-semibold text-lg hover:text-green-700 transition"
@@ -42,36 +42,12 @@
             id="featuresMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <a
-              href="/financial-advice-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Financial Advisor</a
-            >
-            <a
-              href="/price-form"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Crop Prediction</a
-            >
-            <a
-              href="/loan-recommender"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Loan Recommender</a
-            >
-            <a
-              href="/expense-form"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Expense Tracker</a
-            >
-            <a
-              href="/budget-summary-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Budget Summary</a
-            >
-            <a
-              href="/set-budget-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Set Budget</a
-            >
+            <a href="/financial-advice-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Financial Advisor</a>
+            <a href="/price-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Crop Prediction</a>
+            <a href="/loan-recommender" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Loan Recommender</a>
+            <a href="/expense-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Expense Tracker</a>
+            <a href="/budget-summary-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Budget Summary</a>
+            <a href="/set-budget-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Set Budget</a>
           </div>
         </div>
 
@@ -88,21 +64,13 @@
             id="languageMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              English
-            </button>
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              Kannada
-            </button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">English</button>
+            <button class="py-2 px-3 rounded hover:bg-green-100 transition">Kannada</button>
           </div>
         </div>
 
-        <!-- Login Icon -->
         <button>
-          <img
-            src="/static/login_icon.png"
-            class="h-10 w-10 hover:scale-110 transition"
-          />
+          <img src="/static/login_icon.png" class="h-10 w-10 hover:scale-110 transition" />
         </button>
       </div>
     </nav>
@@ -140,11 +108,17 @@
         </h2>
 
         <canvas id="expenseChart" class="w-full h-80"></canvas>
+
+        <div class="mt-6 text-lg font-semibold text-gray-700" id="budgetStats"></div>
       </div>
     </div>
 
     <script>
-      // Save budget
+      let chartRef = null;
+
+      // -------------------------------
+      // ⭐ Save budget
+      // -------------------------------
       async function saveBudget() {
         const amount = document.getElementById("budgetInput").value;
 
@@ -156,31 +130,60 @@
 
         const data = await res.json();
         document.getElementById("resultMsg").innerText = data.message;
+
+        loadChart();
       }
 
-      // Load expense chart
+      // -------------------------------
+      // ⭐ Load Chart (with % calculation)
+      // -------------------------------
       async function loadChart() {
         const res = await fetch("/expense-chart-data");
         const data = await res.json();
 
-        new Chart(document.getElementById("expenseChart"), {
+        const ctx = document.getElementById("expenseChart").getContext("2d");
+
+        if (chartRef) chartRef.destroy();
+
+        chartRef = new Chart(ctx, {
           type: "pie",
           data: {
-            labels: data.labels,
-            datasets: [{ data: data.values }],
+            labels: data.labels.map(
+              (label, i) =>
+                `${label} (${data.percentages[i].toFixed(1)}% of budget)`
+            ),
+            datasets: [
+              {
+                data: data.values,
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: "bottom" },
+            },
           },
         });
+
+        document.getElementById("budgetStats").innerHTML = `
+          <p>💰 <b>Total Budget:</b> ₹${data.budget}</p>
+          <p>📉 <b>Total Spent:</b> ₹${data.total_spent}</p>
+          <p>🟢 <b>Remaining:</b> ₹${data.remaining}</p>
+        `;
       }
+
+      // Auto-refresh every 3 seconds
+      setInterval(loadChart, 3000);
 
       loadChart();
 
-      // Dropdown scripts
-      document.getElementById("featuresBtn").onclick = () => {
+      document.getElementById("featuresBtn").onclick = () =>
         document.getElementById("featuresMenu").classList.toggle("hidden");
-      };
-      document.getElementById("languageBtn").onclick = () => {
+
+      document.getElementById("languageBtn").onclick = () =>
         document.getElementById("languageMenu").classList.toggle("hidden");
-      };
     </script>
   </body>
 </html>
