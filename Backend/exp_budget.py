@@ -168,3 +168,16 @@ class FarmerExpenseTracker:
         self.categories = self.default_categories.copy()
         self.save_categories()
         return {"message": "Categories reset to default."}
+    
+    def get_all_expenses(self):
+        expenses = self.load_expenses()
+        return [
+        {
+            "name": e.name,
+            "category": e.category,
+            "amount": float(e.amount),
+            "date": e.date
+        }
+        for e in expenses
+    ]
+

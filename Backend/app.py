@@ -245,29 +245,113 @@ def budget_status():
 
 
 # HTML page — Budget summary page (loads chart + summary)
-@app.route('/budget-summary-page')
-def budget_summary_html():
-    budget = tracker.get_budget()
-    summary = tracker.get_summary(budget)
-    return render_template("budget_summary.html", summary=summary)
+@app.route("/budget-summary-page",methods=['GET'])
+def budget_summary_page():
+
+    # Read total budget
+    try:
+        with open("farmer_budget.txt", "r") as f:
+            total_budget = int(f.read().strip())
+    except:
+        total_budget = 0
+
+    # Read expenses from file
+    expenses = []
+    try:
+        with open("expenses.txt", "r") as f:
+            for line in f:
+                parts = line.strip().split(",")
+                if len(parts) == 4:
+                    name, amount, category, date = parts
+                    expenses.append({
+                        "name": name,
+                        "amount": float(amount),
+                        "category": category,
+                        "date": date
+                    })
+    except:
+        pass
+
+    # Category totals
+    category_sums = {}
+    for exp in expenses:
+        cat = exp["category"]
+        amt = exp["amount"]
+        category_sums[cat] = category_sums.get(cat, 0) + amt
+
+    categories = list(category_sums.keys())
+    values = list(category_sums.values())
+
+    return render_template(
+        "budget_summary.html",
+        total_budget=total_budget,
+        categories=categories,
+        values=values
+    )
+
 
 # ===============================
 # PIE CHART DATA API (FIXED)
 # ===============================
-@app.route('/expense-chart-data', methods=['GET'])
+@app.route('/expense-chart-data')
 def expense_chart_data():
-    expenses = tracker.get_all_expenses()
+    # -------- 1. READ BUDGET --------
+    try:
+        with open("farmer_budget.txt", "r") as f:
+            budget = float(f.read().strip())
+    except:
+        budget = 0
 
+    # -------- 2. READ EXPENSES FROM TXT --------
     category_totals = {}
-    for e in expenses:
-        category = e["category"]
-        category_totals[category] = category_totals.get(category, 0) + e["amount"]
 
-    # Convert dictionary → chart format
+    try:
+        with open("expenses.txt", "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+
+                # FORMAT: date,category,amount,note
+                parts = line.split(",")
+
+                if len(parts) == 4:
+                    name, amount,category, date = parts = parts
+
+                    try:
+                        amount = float(amount)
+                    except:
+                        continue
+
+                    if category not in category_totals:
+                        category_totals[category] = 0
+
+                    category_totals[category] += amount
+
+    except FileNotFoundError:
+        pass
+
+    # -------- 3. PREPARE CHART DATA --------
     labels = list(category_totals.keys())
     values = list(category_totals.values())
 
-    return jsonify({"labels": labels, "values": values})
+    total_spent = sum(values)
+    remaining = max(budget - total_spent, 0)
+
+    # Avoid division by zero
+    percentages = [
+        (v / budget * 100) if budget > 0 else 0
+        for v in values
+    ]
+
+    # -------- 4. RETURN JSON FOR FRONTEND --------
+    return jsonify({
+        "labels": labels,
+        "values": values,
+        "percentages": percentages,
+        "budget": budget,
+        "total_spent": total_spent,
+        "remaining": remaining
+    })
+
 
 # ==========================
 # LOAN RECOMMENDER

@@ -1,1 +1,3 @@
-fertilizer,🌾 Seeds & Planting,2000,2025-12-11
+fertilizer,🌾 Seeds & Planting,1200,1111-11-11
+pesticide,💰 Loan & Interest,6000,2025-11-12
+Khushi Patil,👨‍🌾 Labor Costs,18000,2024-06-10
