@@ -3,50 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <title>Budget Summary</title>
-
-    <!-- Tailwind + Chart.js -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-      #featuresMenu a{
-        display:block;
-      }
-    </style>
+    <style> #featuresMenu a{ display:block; } </style>
   </head>
 
   <body class="bg-gray-100 min-h-screen">
-    <!-- ⭐ NAVBAR -->
-    <nav
-      class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
-    >
+    <nav class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200">
       <div class="flex items-center gap-3">
         <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
-        <h1 class="text-2xl font-bold tracking-wide text-green-700">
-          Budget Summary
-        </h1>
+        <h1 class="text-2xl font-bold tracking-wide text-green-700">Budget Summary</h1>
       </div>
-
       <div class="flex items-center gap-10">
-        <a
-          href="/"
-          class="font-semibold text-lg hover:text-green-700 transition"
-        >
-          Home
-        </a>
-
-        <!-- FEATURES DROPDOWN -->
+        <a href="/" class="font-semibold text-lg hover:text-green-700 transition">Home</a>
         <div class="relative">
-          <button
-            id="featuresBtn"
-            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
-          >
-            Features
-          </button>
-
-          <div
-            id="featuresMenu"
-            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
-          >
+          <button id="featuresBtn" class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition">Features</button>
+          <div id="featuresMenu" class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50">
             <a href="/financial-advice-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Financial Advisor</a>
             <a href="/price-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Crop Prediction</a>
             <a href="/loan-recommender" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Loan Recommender</a>
@@ -55,65 +27,29 @@
             <a href="/set-budget-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Set Budget</a>
           </div>
         </div>
-
-        <!-- LANGUAGE DROPDOWN -->
         <div class="relative">
-          <button
-            id="languageBtn"
-            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
-          >
-            Language
-          </button>
-
-          <div
-            id="languageMenu"
-            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
-          >
+          <button id="languageBtn" class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition">Language</button>
+          <div id="languageMenu" class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50">
             <button class="py-2 px-3 rounded hover:bg-green-100 transition">English</button>
             <button class="py-2 px-3 rounded hover:bg-green-100 transition">Kannada</button>
           </div>
         </div>
-
-        <button>
-          <img src="/static/login_icon.png" class="h-10 w-10 hover:scale-110 transition" />
-        </button>
+        <button><img src="/static/login_icon.png" class="h-10 w-10 hover:scale-110 transition" /></button>
       </div>
     </nav>
 
-    <!-- ⭐ MAIN CONTENT -->
     <div class="flex flex-col md:flex-row gap-10 p-10">
-      <!-- LEFT: Set budget -->
       <div class="bg-white p-8 rounded-2xl shadow-xl w-full md:w-1/2">
-        <h2 class="text-2xl font-bold mb-6 text-green-700">
-          Set Your Monthly Budget
-        </h2>
-
+        <h2 class="text-2xl font-bold mb-6 text-green-700">Set Your Monthly Budget</h2>
         <label class="font-semibold">Enter Budget Amount (₹):</label>
-        <input
-          id="budgetInput"
-          type="number"
-          min="0"
-          class="w-full p-3 border rounded-xl mt-2 mb-4"
-        />
-
-        <button
-          onclick="saveBudget()"
-          class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition w-full"
-        >
-          Save Budget
-        </button>
-
+        <input id="budgetInput" type="number" min="0" class="w-full p-3 border rounded-xl mt-2 mb-4" />
+        <button onclick="saveBudget()" class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition w-full">Save Budget</button>
         <p id="resultMsg" class="mt-4 text-lg font-semibold text-green-700"></p>
       </div>
 
-      <!-- RIGHT: Pie Chart -->
       <div class="bg-white p-8 rounded-2xl shadow-xl w-full md:w-1/2">
-        <h2 class="text-2xl font-bold mb-6 text-green-700">
-          Monthly Expense Breakdown
-        </h2>
-
+        <h2 class="text-2xl font-bold mb-6 text-green-700">Monthly Expense Breakdown</h2>
         <canvas id="expenseChart" class="w-full h-80"></canvas>
-
         <div class="mt-6 text-lg font-semibold text-gray-700" id="budgetStats"></div>
       </div>
     </div>
@@ -121,74 +57,55 @@
     <script>
       let chartRef = null;
 
-      // -------------------------------
-      // ⭐ Save budget
-      // -------------------------------
       async function saveBudget() {
         const amount = document.getElementById("budgetInput").value;
-
         const res = await fetch("/set-budget", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ amount }),
         });
-
         const data = await res.json();
-        document.getElementById("resultMsg").innerText = data.message;
-
+        document.getElementById("resultMsg").innerText = data.message || "Saved";
         loadChart();
       }
 
-      // -------------------------------
-      // ⭐ Load Chart (with % calculation)
-      // -------------------------------
       async function loadChart() {
-        const res = await fetch("/expense-chart-data");
-        const data = await res.json();
+        try {
+          const res = await fetch("/expense-chart-data");
+          const data = await res.json();
+          const values = Array.isArray(data.values) ? data.values : [];
+          const percentages = Array.isArray(data.percentages) ? data.percentages : values.map(()=>0);
+          const labelsRaw = Array.isArray(data.labels) ? data.labels : [];
 
-        const ctx = document.getElementById("expenseChart").getContext("2d");
+          const ctxEl = document.getElementById("expenseChart");
+          if(!ctxEl) return;
+          const ctx = ctxEl.getContext("2d");
 
-        if (chartRef) chartRef.destroy();
-
-        chartRef = new Chart(ctx, {
-          type: "pie",
-          data: {
-            labels: data.labels.map(
-              (label, i) =>
-                `${label} (${data.percentages[i].toFixed(1)}% of budget)`
-            ),
-            datasets: [
-              {
-                data: data.values,
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: { position: "bottom" },
+          if (chartRef) chartRef.destroy();
+          chartRef = new Chart(ctx, {
+            type: "pie",
+            data: {
+              labels: labelsRaw.map((label, i) => `${label} (${(percentages[i]||0).toFixed(1)}% of budget)`),
+              datasets: [{ data: values, borderWidth: 1 }]
             },
-          },
-        });
+            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+          });
 
-        document.getElementById("budgetStats").innerHTML = `
-          <p>💰 <b>Total Budget:</b> ₹${data.budget}</p>
-          <p>📉 <b>Total Spent:</b> ₹${data.total_spent}</p>
-          <p>🟢 <b>Remaining:</b> ₹${data.remaining}</p>
-        `;
+          document.getElementById("budgetStats").innerHTML = `
+            <p>💰 <b>Total Budget:</b> ₹${data.budget || 0}</p>
+            <p>📉 <b>Total Spent:</b> ₹${data.total_spent || 0}</p>
+            <p>🟢 <b>Remaining:</b> ₹${data.remaining || 0}</p>
+          `;
+        } catch(e) {
+          console.error("chart load failed", e);
+        }
       }
 
-      // Auto-refresh every 3 seconds
       setInterval(loadChart, 3000);
-
       loadChart();
 
-      document.getElementById("featuresBtn").onclick = () =>
-        document.getElementById("featuresMenu").classList.toggle("hidden");
-
-      document.getElementById("languageBtn").onclick = () =>
-        document.getElementById("languageMenu").classList.toggle("hidden");
+      document.getElementById("featuresBtn").onclick = () => document.getElementById("featuresMenu").classList.toggle("hidden");
+      document.getElementById("languageBtn").onclick = () => document.getElementById("languageMenu").classList.toggle("hidden");
     </script>
   </body>
 </html>
