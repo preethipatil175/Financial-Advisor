@@ -142,16 +142,35 @@ def get_recent_expenses():
                 print("⚠️ Skipping bad line:", line.strip())  # Debug info
                 continue
 
-            name, category, amount, date = parts
+            name, amount,category, date = parts
             expenses.append({
                 "name": name,
-                "category": category,
                 "amount": amount,
+                "category": category,
                 "date": date
             })
         return expenses
     except FileNotFoundError:
         return []
+
+kannada_categories = {
+    "Seeds & Planting": "ಬೀಜಗಳು ಮತ್ತು ನೆಡುವಿಕೆ",
+    "Equipment & Machinery": "ಉಪಕರಣಗಳು ಮತ್ತು ಯಂತ್ರೋಪಕರಣಗಳು",
+    "Irrigation & Water": "ನೀರಾವರಿ ಮತ್ತು ನೀರು",
+    "Fertilizers": "ರಸಗೊಬ್ಬರಗಳು",
+    "Pesticides & Chemicals": "ಕೀಟನಾಶಕಗಳು ಮತ್ತು ರಾಸಾಯನಿಕಗಳು",
+    "Labor Costs": "ಕಾರ್ಮಿಕ ವೆಚ್ಚ",
+    "Transportation": "ಸಾರಿಗೆ",
+    "Market & Selling": "ಮಾರಾಟ ಮತ್ತು ಮಾರುಕಟ್ಟೆ",
+    "Food & Personal": "ಆಹಾರ ಮತ್ತು ವೈಯಕ್ತಿಕ",
+    "Household": "ಗೃಹ ಬಳಕೆ",
+    "Fuel & Energy": "ಇಂಧನ ಮತ್ತು ಶಕ್ತಿ",
+    "Veterinary & Livestock": "ಪಶು ವೈದ್ಯಕೀಯ ಮತ್ತು ಪಶುಸಂಗೋಪನೆ",
+    "Maintenance & Repairs": "ರಕ್ಷಣೆ ಮತ್ತು ದುರಸ್ತಿ",
+    "Loan & Interest": "ಸಾಲ ಮತ್ತು ಬಡ್ಡಿ",
+    "Communication": "ಸಂಪರ್ಕ",
+    "Miscellaneous": "ಇತರೆ"
+}
 
 
 # Backend add expense
@@ -169,9 +188,26 @@ def update_exp():
 # Frontend - add expense
 @app.route('/expense-form')
 def expense_form():
+    lang = request.args.get("lang", "en")
+
     categories = tracker.get_categories()
+
+    if lang == "kn":
+        categories = [kannada_categories.get(c, c) for c in categories]
+
     recent_expenses = get_recent_expenses()
-    return render_template("add_expense.html", categories=categories,recent_expenses=recent_expenses)
+
+    return render_template(
+        "add_expense.html",
+        categories=categories,
+        recent_expenses=recent_expenses,
+        lang=lang
+    )
+
+# def expense_form():
+#     categories = tracker.get_categories()
+#     recent_expenses = get_recent_expenses()
+#     return render_template("add_expense.html", categories=categories,recent_expenses=recent_expenses)
 
 @app.route('/add-expense-page', methods=['POST'])
 def add_expense_html():
@@ -294,54 +330,48 @@ def budget_summary_page():
 # ===============================
 @app.route('/expense-chart-data')
 def expense_chart_data():
-    # -------- 1. READ BUDGET --------
+
+    # 1️⃣ Read budget
     try:
         with open("farmer_budget.txt", "r") as f:
             budget = float(f.read().strip())
     except:
         budget = 0
 
-    # -------- 2. READ EXPENSES FROM TXT --------
+    # 2️⃣ Read expenses correctly
     category_totals = {}
 
     try:
         with open("expenses.txt", "r", encoding="utf-8") as f:
             for line in f:
-                line = line.strip()
+                parts = line.strip().split(",")
 
-                # FORMAT: date,category,amount,note
-                parts = line.split(",")
-
+                # correct file structure: name, category, amount, date
                 if len(parts) == 4:
-                    name, amount,category, date = parts = parts
+                    name, category, amount, date = parts
 
                     try:
                         amount = float(amount)
                     except:
                         continue
 
-                    if category not in category_totals:
-                        category_totals[category] = 0
-
-                    category_totals[category] += amount
+                    category_totals[category] = category_totals.get(category, 0) + amount
 
     except FileNotFoundError:
         pass
 
-    # -------- 3. PREPARE CHART DATA --------
+    # 3️⃣ Prepare chart data
     labels = list(category_totals.keys())
     values = list(category_totals.values())
 
     total_spent = sum(values)
     remaining = max(budget - total_spent, 0)
 
-    # Avoid division by zero
     percentages = [
-        (v / budget * 100) if budget > 0 else 0
-        for v in values
+        (v / budget * 100) if budget > 0 else 0 for v in values
     ]
 
-    # -------- 4. RETURN JSON FOR FRONTEND --------
+    # 4️⃣ Send JSON
     return jsonify({
         "labels": labels,
         "values": values,
@@ -350,6 +380,7 @@ def expense_chart_data():
         "total_spent": total_spent,
         "remaining": remaining
     })
+
 
 
 # ==========================
