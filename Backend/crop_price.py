@@ -89,7 +89,7 @@ def get_user_input():
     
     return commodity, month, year, rainfall
 
-def predict_price(commodity, month, year, rainfall):
+def ml_predict_price(commodity, month, year, rainfall):
     """Make price prediction"""
     
     # Create DataFrame with proper feature names (these must match the training data)
