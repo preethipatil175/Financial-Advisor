@@ -3,7 +3,7 @@ from advisor import get_financial_advice
 from kannadacrop import predict_crop_price
 from exp_budget import FarmerExpenseTracker
 from loan_system import get_loan_recommendation
-from crop_price import predict_price
+from crop_price import ml_predict_price
 
 
 app = Flask(__name__)
@@ -81,26 +81,13 @@ def financial_advice_page():
 # ✅ CROP PRICE PREDICTION
 # ======================================================================
 
-# # # Backend
-@app.route('/predict-price', methods=['POST'])
-def predict_price():
-    data = request.json
-    crop = data.get('crop')
-    month = int(data.get('month'))
-    year = int(data.get('year'))
-    rainfall = float(data.get('rainfall'))
-    lang = data.get('language', 'en')  # Optional, default to English
-
-    predicted_price = predict_crop_price(crop, month, year, rainfall, language=lang)
-    return jsonify(predicted_price)
-
-
 # Frontend
 @app.route('/price-form')
 def price_form():
     return render_template("crop_prediction.html")
 
-@app.route('/predict-price', methods=['POST'])
+
+@app.route('/predict-price-api',methods=['POST'])
 def predict_price_api():
     try:
         data = request.json
@@ -108,15 +95,26 @@ def predict_price_api():
         month = int(data.get('month'))
         year = int(data.get('year'))
         rainfall = float(data.get('rainfall'))
+        lang = data.get('language', 'en')
 
-        # Call your ML prediction function
-        _, min_price, max_price, avg_price = predict_price(crop, month, year, rainfall)
+        # Kannada → English mapping
+        kannada_to_english = {
+            "ಜೋಳ": "jowar",
+            "ಗೋಧಿ": "wheat",
+            "ಕಾಟನ್": "cotton",
+            "ಬಜ್ರಾ": "bajara",
+            "ಸಕ್ಕರೆ": "sugarcane"
+        }
+        if crop in kannada_to_english:
+            crop = kannada_to_english[crop]
+
+        # ML prediction
+        predicted_index, min_price, max_price, avg_price = ml_predict_price(
+            crop, month, year, rainfall
+        )
 
         return jsonify({
-            "crop": crop.capitalize(),
-            "month": month,
-            "year": year,
-            "rainfall": rainfall,
+            "predicted_index": predicted_index,
             "min_price": min_price,
             "max_price": max_price,
             "avg_price": avg_price
@@ -124,6 +122,7 @@ def predict_price_api():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 
 

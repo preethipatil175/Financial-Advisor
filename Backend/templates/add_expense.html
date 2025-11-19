@@ -2,218 +2,361 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Expense Tracker</title>
+    <title>Expense Tracker — Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       body {
         background: linear-gradient(to right, #e6f9e6, #c8f2c8);
       }
-      #featuresMenu a{
-        display:block;
-      }
+      #featuresMenu a { display: block; }
     </style>
   </head>
+
   <body class="min-h-screen">
-    <!-- ✅ NAVBAR -->
-    <nav
-      class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
-    >
+    <!-- NAVBAR -->
+    <nav class="flex justify-between items-center px-5 py-4 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200">
       <div class="flex items-center gap-3">
-        <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
-        <h1 class="text-2xl font-bold tracking-wide text-green-700">
-          Expense Tracker
-        </h1>
+        <img src="/static/logo1.jpg" class="h-14 w-14 rounded-xl" />
+        <h1 id="nav_title" class="text-2xl font-bold tracking-wide text-green-700">Expense Tracker</h1>
       </div>
-      <div class="flex items-center gap-10">
-        <!-- ⭐ HOME BUTTON -->
-        <a
-          href="/"
-          class="font-semibold text-lg hover:text-green-700 transition"
-        >
-          Home
-        </a>
 
-      <div class="flex items-center gap-10">
-        <!-- ✅ FEATURES DROPDOWN -->
+      <div class="flex items-center gap-6">
+        <a id="nav_home" href="/" class="font-semibold text-lg hover:text-green-700 transition">Home</a>
+
+        <!-- FEATURES -->
         <div class="relative">
-          <button
-            id="featuresBtn"
-            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
-          >
-            Features 
+          <button id="featuresBtn" class="font-semibold text-lg hover:text-green-700 transition">
+            <span id="nav_features">Features</span>
           </button>
-          <div
-            id="featuresMenu"
-            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
-          >
-            <a
-              href="/financial-advice-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Financial Advisor</a
-            >
-            <a
-              href="/price-form"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Crop Prediction</a
-            >
-            <a
-              href="/loan-recommender"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Loan Recommender</a
-            >
-            <a
-              href="/expense-form"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Expense Tracker</a
-            >
-            <a
-              href="/budget-summary-page"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Budget Summary</a
-            >
+          <div id="featuresMenu" class="absolute hidden right-0 mt-3 bg-white rounded-xl shadow-xl p-4 w-64 border border-gray-200 space-y-2 z-50">
+            <a href="/financial-advice-page" id="features_financial" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Financial Advisor</a>
+            <a href="/price-form" id="features_crop" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Crop Prediction</a>
+            <a href="/loan-recommender" id="features_loan" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Loan Recommender</a>
+            <a href="/expense-form" id="features_expense" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Expense Tracker</a>
+            <a href="/budget-summary-page" id="features_budget" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Budget Summary</a>
           </div>
         </div>
 
-        <!-- ✅ LANGUAGE DROPDOWN -->
+        <!-- LANGUAGE -->
         <div class="relative">
-          <button
-            id="languageBtn"
-            class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
-          >
-            Language 
+          <button id="languageBtn" class="font-semibold text-lg hover:text-green-700 transition">
+            <span id="nav_language">Language</span>
           </button>
-          <div
-            id="languageMenu"
-            class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
-          >
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              English
-            </button>
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              Kannada
-            </button>
+          <div id="languageMenu" class="absolute hidden right-0 mt-3 bg-white rounded-xl shadow-xl p-3 w-40 border border-gray-200 z-50 space-y-2">
+            <button onclick="setLanguage('en')" class="py-2 px-3 rounded hover:bg-green-100 transition w-full text-left">English</button>
+            <button onclick="setLanguage('kn')" class="py-2 px-3 rounded hover:bg-green-100 transition w-full text-left">ಕನ್ನಡ</button>
           </div>
         </div>
 
-        <!-- ✅ LOGIN ICON -->
         <button>
-          <img
-            src="/static/login_icon.png"
-            class="h-10 w-10 hover:scale-110 transition"
-          />
+          <img src="/static/login_icon.png" class="h-10 w-10 hover:scale-110 transition" />
         </button>
       </div>
     </nav>
 
-    <!-- 🌿 MAIN CONTENT -->
-    <div class="grid grid-cols-5 gap-6 p-8">
-      <!-- LEFT (Form - 3/5) -->
-      <div
-        class="col-span-3 bg-white rounded-2xl shadow-xl p-8 border border-green-200"
-      >
-        <h2 class="text-2xl font-bold text-green-700 mb-6 text-center">
-          Add New Expense
-        </h2>
-        <form action="/add-expense-page" method="POST" class="space-y-4">
+    <!-- MAIN GRID (20px padding = p-5) -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 p-5 max-w-7xl mx-auto">
+      <!-- LEFT: Form + Recent (col-span 3) -->
+      <div class="lg:col-span-3 bg-white rounded-2xl shadow-xl p-6 border border-green-200">
+        <h2 id="form_title" class="text-2xl font-bold text-green-700 mb-4 text-center">Add New Expense</h2>
+
+        <!-- Dynamic form uses JS API (/update-expense) -->
+        <form id="expenseForm" class="space-y-4">
           <div>
-            <label class="block text-gray-700">Expense Name:</label>
-            <input
-              type="text"
-              name="name"
-              required
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
-            />
+            <label id="label_name" class="block text-gray-700 font-semibold">Expense Name:</label>
+            <input id="inp_name" type="text" required class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500" />
           </div>
+
           <div>
-            <label class="block text-gray-700">Amount (Rs.):</label>
-            <input
-              type="number"
-              name="amount"
-              step="0.01"
-              required
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
-            />
+            <label id="label_amount" class="block text-gray-700 font-semibold">Amount (₹):</label>
+            <input id="inp_amount" type="number" step="0.01" required class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500" />
           </div>
+
           <div>
-            <label class="block text-gray-700">Category:</label>
-            <select
-              name="category"
-              required
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
-            >
+            <label id="label_category" class="block text-gray-700 font-semibold">Category:</label>
+
+            <!-- categories rendered server-side with English values; JS will translate labels on language change -->
+            <select id="sel_category" required class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500">
               {% for c in categories %}
-              <option value="{{ c }}">{{ c }}</option>
+                <option value="{{ c|e }}" data-eng="{{ c|e }}">{{ c|e }}</option>
               {% endfor %}
             </select>
           </div>
+
           <div>
-            <label class="block text-gray-700">Date:</label>
-            <input
-              type="date"
-              name="date"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500"
-            />
+            <label id="label_date" class="block text-gray-700 font-semibold">Date:</label>
+            <input id="inp_date" type="date" class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500" />
           </div>
-          <button
-            type="submit"
-            class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
-          >
-            Save Expense
-          </button>
+
+          <div>
+            <button id="btn_save" type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">
+              Save Expense
+            </button>
+          </div>
         </form>
 
-        {% if result %}
-        <div class="mt-4 p-3 bg-green-100 text-green-800 rounded">
-          <p>{{ result }}</p>
-        </div>
-        {% endif %}
+        <div id="apiMessage" class="mt-4"></div>
+
+        <!-- RECENT EXPENSES -->
+        <h3 id="recent_title" class="mt-6 mb-3 text-lg font-semibold text-green-700">Recently Added</h3>
+        <ul id="recent_list" class="space-y-3">
+          {% if recent_expenses %}
+            {% for exp in recent_expenses %}
+              <li class="border-b border-gray-200 pb-2 flex justify-between items-center" data-name="{{ exp.name }}" data-category="{{ exp.category }}" data-amount="{{ exp.amount }}" data-date="{{ exp.date }}">
+                <div>
+                  <p class="font-semibold text-gray-800 name_display">{{ exp.name }}</p>
+                  <p class="text-sm text-gray-500 category_display"></p>
+                </div>
+                <form action="/delete-expense/{{ loop.index0 }}" method="POST" class="ml-4">
+                  <button type="submit" class="text-red-500 hover:text-red-700 text-sm font-medium delete-btn">Delete</button>
+                </form>
+              </li>
+            {% endfor %}
+          {% else %}
+            <p class="text-gray-500">No expenses yet.</p>
+          {% endif %}
+        </ul>
       </div>
 
-      <!-- RIGHT (Recent Expenses - 2/5) -->
-      <div
-        class="col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-green-200"
-      >
-        <h2 class="text-xl font-bold text-green-700 mb-4 text-center">
-          Recently Added
-        </h2>
-        {% if recent_expenses %}
-        <ul class="space-y-3">
-          {% for exp in recent_expenses %}
-          <li
-            class="border-b border-gray-200 pb-2 flex justify-between items-center"
-          >
-            <div>
-              <p class="font-semibold text-gray-800">
-                {{ exp.name }} (₹{{ exp.amount }})
-              </p>
-              <p class="text-sm text-gray-500">
-                {{ exp.category }} — {{ exp.date }}
-              </p>
-            </div>
-            <form action="/delete-expense/{{ loop.index0 }}" method="POST">
-              <button
-                type="submit"
-                class="text-red-500 hover:text-red-700 text-sm font-medium"
-              >
-                Delete
-              </button>
-            </form>
-          </li>
-          {% endfor %}
-        </ul>
+      <!-- RIGHT: Budget + Chart (col-span 2) -->
+      <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-green-200 flex flex-col">
+        <h2 id="budget_title" class="text-2xl font-bold text-green-700 mb-4 text-center">Set Your Monthly Budget</h2>
 
-        {% else %}
-        <p class="text-gray-500 text-center">No expenses yet.</p>
-        {% endif %}
+        <label id="label_budget" class="font-semibold">Enter Budget Amount (₹):</label>
+        <input id="budgetInput" type="number" min="0" class="w-full p-3 border rounded-xl mt-2 mb-4" />
+
+        <button id="saveBudgetBtn" class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition w-full">Save Budget</button>
+
+        <p id="budgetMsg" class="mt-3 text-green-700 font-semibold"></p>
+
+        <hr class="my-4" />
+
+        <h3 id="chart_title" class="text-xl font-bold text-green-700 mb-4">Monthly Expense Breakdown</h3>
+        <canvas id="expenseChart" class="w-full h-64"></canvas>
+
+        <div id="budgetStats" class="mt-4 text-gray-700"></div>
       </div>
     </div>
 
     <script>
-      // Dropdown toggles
-      document.getElementById("featuresBtn").onclick = () =>
-        document.getElementById("featuresMenu").classList.toggle("hidden");
-      document.getElementById("languageBtn").onclick = () =>
-        document.getElementById("languageMenu").classList.toggle("hidden");
+      /************************************************************************
+       * TRANSLATIONS & CATEGORY MAP (final Kannada translations you approved)
+       ************************************************************************/
+      const TRANSLATIONS = {
+        en: {
+          nav_title: "Expense Tracker", home: "Home", features: "Features", language: "Language",
+          features_financial: "Financial Advisor", features_crop: "Crop Prediction", features_loan: "Loan Recommender",
+          features_expense: "Expense Tracker", features_budget: "Budget Summary",
+          form_title: "Add New Expense", label_name: "Expense Name:", label_amount: "Amount (₹):",
+          label_category: "Category:", label_date: "Date:", btn_save: "Save Expense", recent_title: "Recently Added",
+          budget_title: "Set Your Monthly Budget", label_budget: "Enter Budget Amount (₹):", save_budget_btn: "Save Budget",
+          chart_title: "Monthly Expense Breakdown",
+          budget_stats: { total_budget: "Total Budget", total_spent: "Total Spent", remaining: "Remaining" },
+          messages: { add_success: "Expense added successfully!", budget_saved: "Budget updated successfully!" }
+        },
+        kn: {
+          nav_title: "ಖರ್ಚು ಟ್ರ್ಯಾಕರ್", home: "ಮುಖಪುಟ", features: "ವೈಶಿಷ್ಟ್ಯಗಳು", language: "ಭಾಷೆ",
+          features_financial: "ಆರ್ಥಿಕ ಸಲಹೆಗಾರ", features_crop: "ಬೆಳೆ ಭವಿಷ್ಯವಾಣಿ", features_loan: "ಸಾಲ ಶಿಫಾರಸು",
+          features_expense: "ಖರ್ಚು ಟ್ರ್ಯಾಕರ್", features_budget: "ಬಜೆಟ್ ಸಾರಾಂಶ",
+          form_title: "ಹೊಸ ಖರ್ಚು ಸೇರಿಸಿ", label_name: "ಖರ್ಚಿನ ಹೆಸರು:", label_amount: "ರಾಶಿ (₹):",
+          label_category: "ವರ್ಗ:", label_date: "ದಿನಾಂಕ:", btn_save: "ಖರ್ಚು ಉಳಿಸಿ", recent_title: "ಇತ್ತೀಚೆಗೆ ಸೇರಿಸಿದವು",
+          budget_title: "ನಿಮ್ಮ ಮಾಸಿಕ ಬಜೆಟ್ ಸೆಟ್ ಮಾಡಿ", label_budget: "ಬಜೆಟ್ ಮೊತ್ತ (₹) ನಮೂದಿಸಿ:", save_budget_btn: "ಬಜೆಟ್ ಉಳಿಸಿ",
+          chart_title: "ಮಾಸಿಕ ಖರ್ಚು ವಿಭಾಗೀಕರಣ",
+          budget_stats: { total_budget: "ಒಟ್ಟು ಬಜೆಟ್", total_spent: "ಒಟ್ಟು ಖರ್ಚು", remaining: "ಉಳಿದಿದೆ" },
+          messages: { add_success: "ಖರ್ಚು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ!", budget_saved: "ಬಜೆಟ್ ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ!" }
+        }
+      };
+
+      // Accurate Kannada translations (from your finalized list)
+      const CATEGORY_MAP = {
+        "Seeds & Planting": "ಬೀಜಗಳು ಮತ್ತು ನೆಡುವುದು",
+        "Equipment & Machinery": "ಉಪಕರಣಗಳು ಮತ್ತು ಯಂತ್ರೋಪಕರಣಗಳು",
+        "Irrigation & Water": "ನೀರಾವರಿ ಮತ್ತು ನೀರು",
+        "Fertilizers": "ರಸಗೊಬ್ಬರ",
+        "Pesticides & Chemicals": "ಕೀಟನಾಶಕಗಳು ಮತ್ತು ರಾಸಾಯನಿಕಗಳು",
+        "Labor Costs": "ಕಾರ್ಮಿಕ ವೆಚ್ಚ",
+        "Transportation": "ಸಾರಿ(ಗೆ)",           // short natural Kannada
+        "Market & Selling": "ಮಾರುಕಟ್ಟೆ ಮತ್ತು ಮಾರಾಟ",
+        "Food & Personal": "ಆಹಾರ ಮತ್ತು ವೈಯಕ್ತಿಕ",
+        "Household": "ಗೃಹೋಪಯೋಗಿ",
+        "Fuel & Energy": "ಇಂಧನ ಮತ್ತು ವಿದ್ಯುತ್",
+        "Veterinary & Livestock": "ಪಶುವೈದ್ಯ ಮತ್ತು ಪಶುಸಂಗೋಪನೆ",
+        "Maintenance & Repairs": "ನಿರ್ವಹಣೆ ಮತ್ತು ದುರಸ್ತಿ",
+        "Loan & Interest": "ಸಾಲ ಮತ್ತು ಬಡ್ಡಿ",
+        "Communication": "ಸಂಪರ್ಕ",
+        "Miscellaneous": "ಇತರೆ"
+      };
+
+      // Utility
+      function el(id){ return document.getElementById(id); }
+      let currentLang = localStorage.getItem("lang") || "en";
+
+      function setLanguage(lang){
+        currentLang = lang;
+        localStorage.setItem("lang", lang);
+        applyTranslations();
+      }
+
+      function applyTranslations(){
+        const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+        // navbar + features
+        if(el("nav_title")) el("nav_title").innerText = t.nav_title;
+        if(el("nav_home")) el("nav_home").innerText = t.home;
+        if(el("nav_features")) el("nav_features").innerText = t.features;
+        if(el("nav_language")) el("nav_language").innerText = t.language;
+        if(el("features_financial")) el("features_financial").innerText = t.features_financial;
+        if(el("features_crop")) el("features_crop").innerText = t.features_crop;
+        if(el("features_loan")) el("features_loan").innerText = t.features_loan;
+        if(el("features_expense")) el("features_expense").innerText = t.features_expense;
+        if(el("features_budget")) el("features_budget").innerText = t.features_budget;
+
+        // form UI
+        if(el("form_title")) el("form_title").innerText = t.form_title;
+        if(el("label_name")) el("label_name").innerText = t.label_name;
+        if(el("label_amount")) el("label_amount").innerText = t.label_amount;
+        if(el("label_category")) el("label_category").innerText = t.label_category;
+        if(el("label_date")) el("label_date").innerText = t.label_date;
+        if(el("btn_save")) el("btn_save").innerText = t.btn_save;
+        if(el("recent_title")) el("recent_title").innerText = t.recent_title;
+
+        // budget side
+        if(el("budget_title")) el("budget_title").innerText = t.budget_title;
+        if(el("label_budget")) el("label_budget").innerText = t.label_budget;
+        if(el("saveBudgetBtn")) el("saveBudgetBtn").innerText = t.save_budget_btn || t.save_budget_btn;
+        if(el("chart_title")) el("chart_title").innerText = t.chart_title;
+
+        // categories & recent entries
+        translateCategoryOptions();
+        translateRecentList();
+
+        // update chart texts/stats
+        loadChart();
+      }
+
+      function translateCategoryOptions(){
+        const sel = el("sel_category");
+        if(!sel) return;
+        Array.from(sel.options).forEach(opt=>{
+          const eng = opt.getAttribute("data-eng") || opt.value;
+          opt.textContent = (currentLang === "kn") ? (CATEGORY_MAP[eng] || eng) : eng;
+        });
+      }
+
+      function translateRecentList(){
+        const items = document.querySelectorAll("#recent_list li");
+        items.forEach(li=>{
+          const engCat = li.getAttribute("data-category");
+          const catElem = li.querySelector(".category_display");
+          const nameElem = li.querySelector(".name_display");
+          const amt = li.getAttribute("data-amount");
+          const date = li.getAttribute("data-date");
+          if(nameElem) nameElem.innerText = li.getAttribute("data-name") || "";
+          if(catElem){
+            if(currentLang === "kn") catElem.innerText = `${CATEGORY_MAP[engCat] || engCat} — ₹${amt} • ${date}`;
+            else catElem.innerText = `${engCat} — ₹${amt} • ${date}`;
+          }
+        });
+      }
+
+      // Add expense (AJAX)
+      if(el("expenseForm")){
+        el("expenseForm").addEventListener("submit", async (e)=>{
+          e.preventDefault();
+          const name = el("inp_name").value.trim();
+          const amount = el("inp_amount").value.trim();
+          const category = el("sel_category").value;
+          const date = el("inp_date").value || new Date().toISOString().slice(0,10);
+          if(!name || !amount || !category){ showMessage("Please fill all required fields","red"); return; }
+          try{
+            const res = await fetch("/update-expense",{ method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ name, category, amount, date }) });
+            const data = await res.json();
+            showMessage(TRANSLATIONS[currentLang].messages.add_success,"green");
+            prependRecent({ name, category, amount, date });
+            el("inp_name").value=""; el("inp_amount").value=""; el("inp_date").value="";
+            loadChart();
+          }catch(err){ console.error(err); showMessage("Error adding expense","red"); }
+        });
+      }
+
+      function prependRecent(exp){
+        const ul = el("recent_list");
+        if(!ul) return;
+        const li = document.createElement("li");
+        li.className = "border-b border-gray-200 pb-2 flex justify-between items-center";
+        li.setAttribute("data-name", exp.name);
+        li.setAttribute("data-category", exp.category);
+        li.setAttribute("data-amount", exp.amount);
+        li.setAttribute("data-date", exp.date);
+        li.innerHTML = `
+          <div>
+            <p class="font-semibold text-gray-800 name_display">${exp.name}</p>
+            <p class="text-sm text-gray-500 category_display"></p>
+          </div>
+          <form action="/delete-expense/0" method="POST" class="ml-4">
+            <button type="submit" class="text-red-500 hover:text-red-700 text-sm font-medium delete-btn">Delete</button>
+          </form>
+        `;
+        ul.insertBefore(li, ul.firstChild);
+        translateRecentList();
+      }
+
+      function showMessage(msg, color="green"){
+        const div = el("apiMessage");
+        if(!div) return;
+        div.innerHTML = `<div class="p-3 rounded ${color==='green'?'bg-green-100 text-green-800':'bg-red-100 text-red-800'}">${msg}</div>`;
+        setTimeout(()=> div.innerHTML = "", 3000);
+      }
+
+      // Save budget
+      if(el("saveBudgetBtn")){
+        el("saveBudgetBtn").addEventListener("click", async ()=>{
+          const amount = el("budgetInput").value || 0;
+          try{
+            const res = await fetch("/set-budget",{ method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ amount }) });
+            const data = await res.json();
+            showMessage(TRANSLATIONS[currentLang].messages.budget_saved,"green");
+            loadChart();
+          }catch(err){ console.error(err); showMessage("Failed to save budget","red"); }
+        });
+      }
+
+      // Chart
+      let chartRef = null;
+      async function loadChart(){
+        try{
+          const res = await fetch("/expense-chart-data");
+          const data = await res.json();
+          const labels = (data.labels || []).map(l => currentLang === "kn" ? (CATEGORY_MAP[l] || l) : l);
+          const ctx = document.getElementById("expenseChart").getContext("2d");
+          if(chartRef) chartRef.destroy();
+          chartRef = new Chart(ctx, {
+            type: "pie",
+            data: {
+              labels: labels.map((l,i) => `${l} (${data.percentages && data.percentages[i] ? data.percentages[i].toFixed(1) : 0}%)`),
+              datasets: [{ data: data.values || [], borderWidth: 1 }]
+            },
+            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+          });
+          // budget stats
+          const bs = TRANSLATIONS[currentLang].budget_stats;
+          el("budgetStats").innerHTML = `
+            <p>💰 <b>${bs.total_budget}:</b> ₹${data.budget || 0}</p>
+            <p>📉 <b>${bs.total_spent}:</b> ₹${data.total_spent || 0}</p>
+            <p>🟢 <b>${bs.remaining}:</b> ₹${data.remaining || 0}</p>
+          `;
+        }catch(err){ console.error("Failed to load chart",err); }
+      }
+
+      // initial setup
+      document.getElementById("featuresBtn").onclick = ()=> document.getElementById("featuresMenu").classList.toggle("hidden");
+      document.getElementById("languageBtn").onclick = ()=> document.getElementById("languageMenu").classList.toggle("hidden");
+
+      // apply language & load chart
+      setLanguage(currentLang);
+      loadChart();
+      // refresh periodically
+      setInterval(loadChart, 5000);
     </script>
   </body>
 </html>

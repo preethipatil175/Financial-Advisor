@@ -12,26 +12,27 @@
   </head>
 
   <body class="bg-green-50 min-h-screen text-gray-800">
-    <!-- ⭐ REPLACED NAVBAR (Your Loan Recommender Navbar) -->
+    <!-- ⭐ NAVBAR -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
     >
-      <!-- Logo + Title -->
       <div class="flex items-center gap-3">
         <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
-        <h1 class="text-2xl font-bold tracking-wide text-green-700">
+        <h1
+          id="title_main"
+          class="text-2xl font-bold tracking-wide text-green-700"
+        >
           Crop Price Prediction
         </h1>
       </div>
 
       <div class="flex items-center gap-10">
-        <!-- ⭐ HOME BUTTON -->
         <a
           href="/"
+          id="nav_home"
           class="font-semibold text-lg hover:text-green-700 transition"
+          >Home</a
         >
-          Home
-        </a>
 
         <!-- FEATURES DROPDOWN -->
         <div class="relative">
@@ -39,7 +40,7 @@
             id="featuresBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Features
+            <span id="nav_features">Features</span>
           </button>
 
           <div
@@ -48,26 +49,31 @@
           >
             <a
               href="/financial-advice-page"
+              id="features_financial"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Financial Advisor</a
             >
             <a
               href="/price-form"
+              id="features_crop"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Crop Prediction</a
             >
             <a
               href="/loan-recommender"
+              id="features_loan"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Loan Recommender</a
             >
             <a
               href="/expense-form"
+              id="features_expense"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Expense Tracker</a
             >
             <a
               href="/budget-summary-page"
+              id="features_budget"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Budget Summary</a
             >
@@ -80,23 +86,28 @@
             id="languageBtn"
             class="font-semibold text-lg flex items-center gap-1 hover:text-green-700 transition"
           >
-            Language
+            <span id="nav_language">Language</span>
           </button>
 
           <div
             id="languageMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
+            <button
+              onclick="loadLanguage('en')"
+              class="py-2 px-3 rounded hover:bg-green-100 transition"
+            >
               English
             </button>
-            <button class="py-2 px-3 rounded hover:bg-green-100 transition">
-              Kannada
+            <button
+              onclick="loadLanguage('kn')"
+              class="py-2 px-3 rounded hover:bg-green-100 transition"
+            >
+              ಕನ್ನಡ
             </button>
           </div>
         </div>
 
-        <!-- Login Icon -->
         <button>
           <img
             src="/static/login_icon.png"
@@ -106,55 +117,48 @@
       </div>
     </nav>
 
-    <!-- Layout -->
+    <!--  ⭐ FORM SECTION  -->
     <div class="flex justify-between items-start gap-10 p-20">
-      <!-- Left: Form -->
       <form
         id="predictForm"
         class="bg-white shadow-xl border border-green-200 rounded-2xl p-8 w-3/5 space-y-6"
       >
-        <h2 class="text-2xl font-bold text-green-700 text-center mb-4">
+        <h2
+          id="form_title"
+          class="text-2xl font-bold text-green-700 text-center mb-4"
+        >
           Enter Crop Details
         </h2>
 
+        <!-- CROP DROPDOWN -->
         <div>
-          <label class="block font-semibold mb-2">Select Crop:</label>
+          <label id="label_crop" class="block font-semibold mb-2">
+            Select Crop:
+          </label>
           <select
+            id="cropSelect"
             name="crop"
             class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400"
-          >
-            <option value="jowar">Jowar</option>
-            <option value="wheat">Wheat</option>
-            <option value="cotton">Cotton</option>
-            <option value="sugarcane">Sugarcane</option>
-            <option value="bajara">Bajara</option>
-          </select>
+          ></select>
         </div>
 
+        <!-- MONTH DROPDOWN -->
         <div>
-          <label class="block font-semibold mb-2">Select Month:</label>
+          <label id="label_month" class="block font-semibold mb-2">
+            Select Month:
+          </label>
           <select
+            id="monthSelect"
             name="month"
             class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400"
-          >
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
+          ></select>
         </div>
 
+        <!-- YEAR INPUT -->
         <div>
-          <label class="block font-semibold mb-2">Year:</label>
+          <label id="label_year" class="block font-semibold mb-2">Year:</label>
           <input
+            id="year_input"
             type="number"
             name="year"
             placeholder="Enter year (e.g., 2025)"
@@ -163,19 +167,25 @@
           />
         </div>
 
+        <!-- RAINFALL INPUT -->
         <div>
-          <label class="block font-semibold mb-2">Rainfall (mm):</label>
+          <label id="label_rainfall" class="block font-semibold mb-2">
+            Rainfall (mm):
+          </label>
           <input
+            id="rainfall_input"
             type="number"
             name="rainfall"
             step="0.1"
-            placeholder="Enter rainfall in mm"
+            placeholder="Enter rainfall value"
             class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400"
             required
           />
         </div>
 
+        <!-- BUTTON -->
         <button
+          id="predict_btn"
           type="submit"
           class="bg-green-600 text-white px-6 py-3 w-full rounded-lg hover:bg-green-700 transition font-semibold shadow-md"
         >
@@ -183,34 +193,175 @@
         </button>
       </form>
 
-      <!-- Right: Prediction Cards -->
+      <!-- Output -->
       <div id="result" class="flex flex-col justify-between w-2/5 space-y-8">
         <div
-          id="minPriceCard"
-          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center"
         >
-          <h3 class="text-xl font-bold text-green-700">Minimum Price</h3>
+          <h3 id="min_label" class="text-xl font-bold text-green-700">
+            Minimum Price
+          </h3>
           <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
         </div>
 
         <div
-          id="avgPriceCard"
-          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center"
         >
-          <h3 class="text-xl font-bold text-green-700">Average Price</h3>
+          <h3 id="avg_label" class="text-xl font-bold text-green-700">
+            Average Price
+          </h3>
           <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
         </div>
 
         <div
-          id="maxPriceCard"
-          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center transform transition hover:scale-105 hover:shadow-2xl hover:border-green-500"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center"
         >
-          <h3 class="text-xl font-bold text-green-700">Maximum Price</h3>
+          <h3 id="max_label" class="text-xl font-bold text-green-700">
+            Maximum Price
+          </h3>
           <p class="text-3xl font-bold text-gray-800 mt-2">₹—</p>
         </div>
       </div>
     </div>
 
+    <!-- ⭐ LANGUAGE SYSTEM SCRIPT -->
+    <script>
+      // CROPS + MONTHS in English & Kannada
+      const CROPS = {
+        en: [
+          { value: "jowar", label: "Jowar" },
+          { value: "wheat", label: "Wheat" },
+          { value: "cotton", label: "Cotton" },
+          { value: "sugarcane", label: "Sugarcane" },
+          { value: "bajara", label: "Bajara" },
+        ],
+        kn: [
+          { value: "jowar", label: "ಜೋಳ" },
+          { value: "wheat", label: "ಗೋಧಿ" },
+          { value: "cotton", label: "ಹತ್ತಿ" },
+          { value: "sugarcane", label: "ಕರಿಬೇವು" },
+          { value: "bajara", label: "ಸಜ್ಜೆ" },
+        ],
+      };
+
+      const MONTHS = {
+        en: [
+          { value: "1", label: "January" },
+          { value: "2", label: "February" },
+          { value: "3", label: "March" },
+          { value: "4", label: "April" },
+          { value: "5", label: "May" },
+          { value: "6", label: "June" },
+          { value: "7", label: "July" },
+          { value: "8", label: "August" },
+          { value: "9", label: "September" },
+          { value: "10", label: "October" },
+          { value: "11", label: "November" },
+          { value: "12", label: "December" },
+        ],
+        kn: [
+          { value: "1", label: "ಜನವರಿ" },
+          { value: "2", label: "ಫೆಬ್ರವರಿ" },
+          { value: "3", label: "ಮಾರ್ಚ್" },
+          { value: "4", label: "ಏಪ್ರಿಲ್" },
+          { value: "5", label: "ಮೇ" },
+          { value: "6", label: "ಜೂನ್" },
+          { value: "7", label: "ಜುಲೈ" },
+          { value: "8", label: "ಆಗಸ್ಟ್" },
+          { value: "9", label: "ಸೆಪ್ಟೆಂಬರ್" },
+          { value: "10", label: "ಅಕ್ಟೋಬರ್" },
+          { value: "11", label: "ನವೆಂಬರ್" },
+          { value: "12", label: "ಡಿಸೆಂಬರ್" },
+        ],
+      };
+
+      function fillDropdown(id, items) {
+        const select = document.getElementById(id);
+        select.innerHTML = "";
+        items.forEach((item) => {
+          const option = document.createElement("option");
+          option.value = item.value;
+          option.textContent = item.label;
+          select.appendChild(option);
+        });
+      }
+
+      function loadLanguage(lang) {
+        // DROPDOWNS
+        fillDropdown("cropSelect", CROPS[lang]);
+        fillDropdown("monthSelect", MONTHS[lang]);
+
+        /* NAVBAR */
+        document.getElementById("title_main").innerText =
+          lang === "kn" ? "ಬೆಳೆ ಬೆಲೆ ಭವಿಷ್ಯವಾಣಿ" : "Crop Price Prediction";
+
+        document.getElementById("nav_home").innerText =
+          lang === "kn" ? "ಮುಖಪುಟ" : "Home";
+
+        document.getElementById("nav_features").innerText =
+          lang === "kn" ? "ವೈಶಿಷ್ಟ್ಯಗಳು" : "Features";
+
+        document.getElementById("nav_language").innerText =
+          lang === "kn" ? "ಭಾಷೆ" : "Language";
+
+        document.getElementById("features_financial").innerText =
+          lang === "kn" ? "ಆರ್ಥಿಕ ಸಲಹೆಗಾರ" : "Financial Advisor";
+
+        document.getElementById("features_crop").innerText =
+          lang === "kn" ? "ಬೆಳೆ ಭವಿಷ್ಯವಾಣಿ" : "Crop Prediction";
+
+        document.getElementById("features_loan").innerText =
+          lang === "kn" ? "ಸಾಲ ಶಿಫಾರಸು" : "Loan Recommender";
+
+        document.getElementById("features_expense").innerText =
+          lang === "kn" ? "ಖರ್ಚು ಟ್ರ್ಯಾಕರ್" : "Expense Tracker";
+
+        document.getElementById("features_budget").innerText =
+          lang === "kn" ? "ಬಜೆಟ್ ಸಾರಾಂಶ" : "Budget Summary";
+
+        /* FORM LABELS */
+        document.getElementById("form_title").innerText =
+          lang === "kn" ? "ಬೆಳೆ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ" : "Enter Crop Details";
+
+        document.getElementById("label_crop").innerText =
+          lang === "kn" ? "ಬೆಳೆ ಆಯ್ಕೆಮಾಡಿ:" : "Select Crop:";
+
+        document.getElementById("label_month").innerText =
+          lang === "kn" ? "ತಿಂಗಳು ಆಯ್ಕೆಮಾಡಿ:" : "Select Month:";
+
+        document.getElementById("label_year").innerText =
+          lang === "kn" ? "ವರ್ಷ:" : "Year:";
+
+        document.getElementById("label_rainfall").innerText =
+          lang === "kn" ? "ಮಳೆಯ ಪ್ರಮಾಣ (mm):" : "Rainfall (mm):";
+
+        document.getElementById("predict_btn").innerText =
+          lang === "kn" ? "ಬೆಲೆ ಊಹಿಸಿ" : "Predict Price";
+
+        document.getElementById("year_input").placeholder =
+          lang === "kn"
+            ? "ವರ್ಷ ನಮೂದಿಸಿ (ಉದಾ: 2025)"
+            : "Enter year (e.g., 2025)";
+
+        document.getElementById("rainfall_input").placeholder =
+          lang === "kn" ? "ಮಳೆ ಪ್ರಮಾಣ ನಮೂದಿಸಿ" : "Enter rainfall value";
+
+        /* OUTPUT LABELS */
+        document.getElementById("min_label").innerText =
+          lang === "kn" ? "ಕನಿಷ್ಠ ಬೆಲೆ" : "Minimum Price";
+
+        document.getElementById("avg_label").innerText =
+          lang === "kn" ? "ಸರಾಸರಿ ಬೆಲೆ" : "Average Price";
+
+        document.getElementById("max_label").innerText =
+          lang === "kn" ? "ಗರಿಷ್ಠ ಬೆಲೆ" : "Maximum Price";
+      }
+
+      // Default English
+      loadLanguage("en");
+    </script>
+
+    <!-- BUTTON TOGGLES -->
     <script>
       document.getElementById("featuresBtn").onclick = () => {
         document.getElementById("featuresMenu").classList.toggle("hidden");
@@ -219,36 +370,32 @@
       document.getElementById("languageBtn").onclick = () => {
         document.getElementById("languageMenu").classList.toggle("hidden");
       };
+      document.getElementById("predictForm").onsubmit = async (e) => {
+        e.preventDefault();
 
-      document
-        .getElementById("predictForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target);
-          const jsonData = Object.fromEntries(formData.entries());
+        const crop = document.getElementById("cropSelect").value;
+        const month = document.getElementById("monthSelect").value;
+        const year = document.getElementById("year_input").value;
+        const rainfall = document.getElementById("rainfall_input").value;
 
-          const res = await fetch("/predict-price", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(jsonData),
-          });
-
-          const data = await res.json();
-          if (data.error) {
-            alert(data.error);
-            return;
-          }
-
-          document.querySelector(
-            "#minPriceCard p"
-          ).innerText = `₹${data.min_price}`;
-          document.querySelector(
-            "#avgPriceCard p"
-          ).innerText = `₹${data.avg_price}`;
-          document.querySelector(
-            "#maxPriceCard p"
-          ).innerText = `₹${data.max_price}`;
+        const response = await fetch("/predict-price-api", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ crop, month, year, rainfall }),
         });
+
+        const data = await response.json();
+
+        document.querySelectorAll(
+          "#result p"
+        )[0].innerText = `₹${data.min_price}`;
+        document.querySelectorAll(
+          "#result p"
+        )[1].innerText = `₹${data.avg_price}`;
+        document.querySelectorAll(
+          "#result p"
+        )[2].innerText = `₹${data.max_price}`;
+      };
     </script>
   </body>
 </html>
