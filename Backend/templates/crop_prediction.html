@@ -169,12 +169,9 @@
 
         <!-- RAINFALL INPUT -->
         <div>
-          <label id="label_rainfall" class="block font-semibold mb-2">
-            Rainfall (mm):
-          </label>
           <input
             id="rainfall_input"
-            type="number"
+            type="hidden"
             name="rainfall"
             step="0.1"
             placeholder="Enter rainfall value"
@@ -397,5 +394,13 @@
         )[2].innerText = `₹${data.max_price}`;
       };
     </script>
+    <script>
+          // Generate random rainfall between 80–102
+          const rainfallValue = (Math.random() * (102 - 80) + 80).toFixed(1);
+
+          // Fill hidden input
+          document.getElementById("rainfall_input").value = rainfallValue;
+        </script
+
   </body>
 </html>

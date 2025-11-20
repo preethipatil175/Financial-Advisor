@@ -10,5 +10,40 @@
   "features_expense": "ಖರ್ಚು ಟ್ರ್ಯಾಕರ್",
   "features_expense_desc": "ಎಲ್ಲಾ ರೈತ ಖರ್ಚುಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.",
   "features_budget": "ಬಜೆಟ್ ಸಾರಾಂಶ",
-  "features_budget_desc": "ನಿಮ್ಮ ಮಾಸಿಕ ಆರ್ಥಿಕ ಸ್ಥಿತಿಯನ್ನು ನೋಡಿ."
+  "features_budget_desc": "ನಿಮ್ಮ ಮಾಸಿಕ ಆರ್ಥಿಕ ಸ್ಥಿತಿಯನ್ನು ನೋಡಿ.",
+
+  "nav_home": "ಮುಖಪುಟ",
+  "financial_feature_name":"ಹಣಕಾಸು ಸಲಹೆಗಾರ",
+  "nav_features": "ವೈಶಿಷ್ಟ್ಯಗಳು",
+  "nav_language": "ಭಾಷೆ",
+
+  "nav_financial": "ಹಣಕಾಸು ಸಲಹೆ",
+  "nav_crop": "ಬೆಳೆ ಬೆಲೆ ಊಹಿಕೆ",
+  "nav_loan": "ಸಾಲ ಶಿಫಾರಸು",
+  "nav_expense": "ವೆಚ್ಚ ಟ್ರ್ಯಾಕರ್",
+  "nav_budget": "ಬಜೆಟ್ ಸಾರಾಂಶ",
+
+  "form_title": "ಹಣಕಾಸು ಸಲಹೆ ಫಾರ್ಮ್",
+  "label_risk": "ಜೊಕಿಂ ಪ್ರೊಫೈಲ್",
+  "label_term": "ಹೂಡಿಕೆ ಅವಧಿ",
+  "label_initial": "ಪ್ರಾರಂಭಿಕ ಮೊತ್ತ (₹)",
+  "label_monthly": "ಮಾಸಿಕ ಉಳಿತಾಯ (₹)",
+  "label_language": "ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ",
+
+  "opt_conservative": "ಸಂರಕ್ಷಿತ",
+  "opt_moderate": "ಮಧ್ಯಮ",
+  "opt_aggressive": "ಆಕ್ರಮಕ",
+
+  "opt_short": "ಕಡಿಮೆ (< 5 ವರ್ಷ)",
+  "opt_medium": "ಮಧ್ಯಮ (5–10 ವರ್ಷ)",
+  "opt_long": "ಉದ್ದ (> 10 ವರ್ಷ)",
+
+  "opt_lang_eng": "ಇಂಗ್ಲಿಷ್",
+  "opt_lang_kn": "ಕನ್ನಡ",
+
+  "btn_submit": "ಸಲಹೆ ಪಡೆಯಿರಿ",
+
+  "result_title": "ಹಣಕಾಸು ಸಲಹೆ ಫಲಿತಾಂಶ",
+  "result_placeholder": "ಫಾರ್ಮ್ ಅನ್ನು ತುಂಬಿಸಿ ಸಲ್ಲಿಸಿ."
 }
+
