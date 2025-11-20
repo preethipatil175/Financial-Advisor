@@ -108,7 +108,7 @@ def index():
                 extensions=["extra", "tables", "sane_lists"]
             )
 
-    return render_template("financial_combined.html", result=result, formatted_output=formatted_output)
+    return render_template("financial_advisor.html", result=result, formatted_output=formatted_output)
 
 
 # ======================================================================

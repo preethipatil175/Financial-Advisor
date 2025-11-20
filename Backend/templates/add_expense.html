@@ -8,7 +8,6 @@
   </head>
 
   <body class="bg-green-50">
-
     <!-- ---------------- NAVBAR ADDED HERE ---------------- -->
     <nav
       class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200"
@@ -45,11 +44,37 @@
             id="featuresMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <a href="/financial-advice-page" id="features_financial" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Financial Advisor</a>
-            <a href="/price-form" id="features_crop" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Crop Prediction</a>
-            <a href="/loan-recommender" id="features_loan" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Loan Recommender</a>
-            <a href="/expense-form" id="features_expense" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Expense Tracker</a>
-            <a href="/budget-summary-page" id="features_budget" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Budget Summary</a>
+            <a
+              href="/financial-advice"
+              id="features_financial"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Financial Advisor</a
+            >
+            <a
+              href="/price-form"
+              id="features_crop"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Crop Prediction</a
+            >
+            <a
+              href="/loan-recommender"
+              id="features_loan"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Loan Recommender</a
+            >
+            <a
+              href="/expense-form"
+              id="features_expense"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              >Expense Tracker</a
+            >
+            <a
+              href="/budget-summary-page"
+              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
+              id="features_budget"
+            >
+              Budget Summary
+            </a>
           </div>
         </div>
 
@@ -66,13 +91,26 @@
             id="languageMenu"
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50"
           >
-            <button onclick="loadLanguage('en')" class="py-2 px-3 rounded hover:bg-green-100 transition">English</button>
-            <button onclick="loadLanguage('kn')" class="py-2 px-3 rounded hover:bg-green-100 transition">ಕನ್ನಡ</button>
+            <button
+              onclick="loadLanguage('en')"
+              class="py-2 px-3 rounded hover:bg-green-100 transition"
+            >
+              English
+            </button>
+            <button
+              onclick="loadLanguage('kn')"
+              class="py-2 px-3 rounded hover:bg-green-100 transition"
+            >
+              ಕನ್ನಡ
+            </button>
           </div>
         </div>
 
         <button>
-          <img src="/static/login_icon.png" class="h-10 w-10 hover:scale-110 transition" />
+          <img
+            src="/static/login_icon.png"
+            class="h-10 w-10 hover:scale-110 transition"
+          />
         </button>
       </div>
     </nav>
@@ -83,33 +121,64 @@
       <h1 id="titleText" class="text-3xl font-bold text-green-800 mb-6"></h1>
 
       <label id="budgetLabel" class="font-semibold"></label>
-      <input id="budgetInput" type="number" class="w-full p-2 border rounded mt-2 mb-4" />
+      <input
+        id="budgetInput"
+        type="number"
+        class="w-full p-2 border rounded mt-2 mb-4"
+      />
 
-      <button id="setBudgetBtn" onclick="setBudget()" class="bg-green-600 text-white px-6 py-2 rounded">
+      <button
+        id="setBudgetBtn"
+        onclick="setBudget()"
+        class="bg-green-600 text-white px-6 py-2 rounded"
+      >
         Set Budget
       </button>
 
-      <h2 id="expenseTitle" class="text-2xl font-bold text-green-700 mt-10"></h2>
+      <h2
+        id="expenseTitle"
+        class="text-2xl font-bold text-green-700 mt-10"
+      ></h2>
 
       <label id="amountLabel" class="font-semibold"></label>
-      <input id="expenseAmount" type="number" class="w-full p-2 border rounded mt-2 mb-4" />
+      <input
+        id="expenseAmount"
+        type="number"
+        class="w-full p-2 border rounded mt-2 mb-4"
+      />
 
       <label id="categoryLabel" class="font-semibold"></label>
-      <select id="categorySelect" class="w-full p-2 border rounded mt-2 mb-4"></select>
+      <select
+        id="categorySelect"
+        class="w-full p-2 border rounded mt-2 mb-4"
+      ></select>
 
       <label id="descriptionLabel" class="font-semibold"></label>
-      <input id="expenseDescription" class="w-full p-2 border rounded mt-2 mb-4" />
+      <input
+        id="expenseDescription"
+        class="w-full p-2 border rounded mt-2 mb-4"
+      />
 
-      <button id="addExpenseBtn" onclick="addExpense()" class="bg-green-600 text-white px-6 py-2 rounded">
+      <button
+        id="addExpenseBtn"
+        onclick="addExpense()"
+        class="bg-green-600 text-white px-6 py-2 rounded"
+      >
         Add Expense
       </button>
 
-      <h2 id="summaryTitle" class="text-2xl font-bold text-green-700 mt-10"></h2>
+      <h2
+        id="summaryTitle"
+        class="text-2xl font-bold text-green-700 mt-10"
+      ></h2>
 
       <p id="budgetSummary" class="font-semibold"></p>
       <p id="expenseSummary" class="font-semibold mb-4"></p>
 
-      <h3 id="expenseListTitle" class="text-xl font-bold text-green-700 mt-5"></h3>
+      <h3
+        id="expenseListTitle"
+        class="text-xl font-bold text-green-700 mt-5"
+      ></h3>
 
       <ul id="expenseList" class="list-disc pl-5"></ul>
 
@@ -122,17 +191,41 @@
 
       const categoryOptions = {
         en: [
-          "Seeds & Planting", "Equipment & Machinery", "Irrigation & Water", "Fertilizers",
-          "Pesticides & Chemicals", "Labor Costs", "Transportation", "Market & Selling",
-          "Food & Personal", "Household", "Fuel & Energy", "Veterinary & Livestock",
-          "Maintenance & Repairs", "Loan & Interest", "Communication", "Miscellaneous"
+          "Seeds & Planting",
+          "Equipment & Machinery",
+          "Irrigation & Water",
+          "Fertilizers",
+          "Pesticides & Chemicals",
+          "Labor Costs",
+          "Transportation",
+          "Market & Selling",
+          "Food & Personal",
+          "Household",
+          "Fuel & Energy",
+          "Veterinary & Livestock",
+          "Maintenance & Repairs",
+          "Loan & Interest",
+          "Communication",
+          "Miscellaneous",
         ],
         kn: [
-          "ಬೀಜಗಳು ಮತ್ತು ನೆಡುವಿಕೆ","ಉಪಕರಣಗಳು ಮತ್ತು ಯಂತ್ರೋಪಕರಣಗಳು","ನೀರಾವರಿ ಮತ್ತು ನೀರು", "ರಸಗೊಬ್ಬರಗಳು",
-          "ಕೀಟನಾಶಕಗಳು ಮತ್ತು ರಾಸಾಯನಿಕಗಳು","ಕಾರ್ಮಿಕ ವೆಚ್ಚ","ಸಾರಿಗೆ", "ಮಾರಾಟ ಮತ್ತು ಮಾರುಕಟ್ಟೆ",
-          "ಆಹಾರ ಮತ್ತು ವೈಯಕ್ತಿಕ","ಗೃಹ ಬಳಕೆ", "ಇಂಧನ ಮತ್ತು ಶಕ್ತಿ", "ಪಶುವೈದ್ಯಕೀಯ ಮತ್ತು ಪಶುಸಂಗೋಪನೆ",
-          "ನಿರ್ವಹಣೆ ಮತ್ತು ದುರಸ್ತಿ","ಸಾಲ ಮತ್ತು ಬಡ್ಡಿ", "ಸಂಪರ್ಕ","ಇತರೆ"
-        ]
+          "ಬೀಜಗಳು ಮತ್ತು ನೆಡುವಿಕೆ",
+          "ಉಪಕರಣಗಳು ಮತ್ತು ಯಂತ್ರೋಪಕರಣಗಳು",
+          "ನೀರಾವರಿ ಮತ್ತು ನೀರು",
+          "ರಸಗೊಬ್ಬರಗಳು",
+          "ಕೀಟನಾಶಕಗಳು ಮತ್ತು ರಾಸಾಯನಿಕಗಳು",
+          "ಕಾರ್ಮಿಕ ವೆಚ್ಚ",
+          "ಸಾರಿಗೆ",
+          "ಮಾರಾಟ ಮತ್ತು ಮಾರುಕಟ್ಟೆ",
+          "ಆಹಾರ ಮತ್ತು ವೈಯಕ್ತಿಕ",
+          "ಗೃಹ ಬಳಕೆ",
+          "ಇಂಧನ ಮತ್ತು ಶಕ್ತಿ",
+          "ಪಶುವೈದ್ಯಕೀಯ ಮತ್ತು ಪಶುಸಂಗೋಪನೆ",
+          "ನಿರ್ವಹಣೆ ಮತ್ತು ದುರಸ್ತಿ",
+          "ಸಾಲ ಮತ್ತು ಬಡ್ಡಿ",
+          "ಸಂಪರ್ಕ",
+          "ಇತರೆ",
+        ],
       };
 
       const uiText = {
@@ -156,8 +249,8 @@
           addExpenseBtn: "Add Expense",
           summaryTitle: "Summary",
           expenseListTitle: "All Expenses",
-          budgetSummary: amt => `Total Budget: ₹${amt}`,
-          expenseSummary: amt => `Total Expenses: ₹${amt}`
+          budgetSummary: (amt) => `Total Budget: ₹${amt}`,
+          expenseSummary: (amt) => `Total Expenses: ₹${amt}`,
         },
         kn: {
           nav_home: "ಮುಖಪುಟ",
@@ -179,9 +272,9 @@
           addExpenseBtn: "ಖರ್ಚು ಸೇರಿಸಿ",
           summaryTitle: "ಸಾರಾಂಶ",
           expenseListTitle: "ಎಲ್ಲಾ ಖರ್ಚುಗಳು",
-          budgetSummary: amt => `ಒಟ್ಟು ಬಜೆಟ್: ₹${amt}`,
-          expenseSummary: amt => `ಒಟ್ಟು ಖರ್ಚುಗಳು: ₹${amt}`
-        }
+          budgetSummary: (amt) => `ಒಟ್ಟು ಬಜೆಟ್: ₹${amt}`,
+          expenseSummary: (amt) => `ಒಟ್ಟು ಖರ್ಚುಗಳು: ₹${amt}`,
+        },
       };
 
       function loadLanguage(lang) {
@@ -191,11 +284,14 @@
         document.getElementById("nav_features").innerText = t.nav_features;
         document.getElementById("nav_language").innerText = t.nav_language;
 
-        document.getElementById("features_financial").innerText = t.features_financial;
+        document.getElementById("features_financial").innerText =
+          t.features_financial;
         document.getElementById("features_crop").innerText = t.features_crop;
         document.getElementById("features_loan").innerText = t.features_loan;
-        document.getElementById("features_expense").innerText = t.features_expense;
-        document.getElementById("features_budget").innerText = t.features_budget;
+        document.getElementById("features_expense").innerText =
+          t.features_expense;
+        document.getElementById("features_budget").innerText =
+          t.features_budget;
 
         document.getElementById("titleText").innerText = t.title;
         document.getElementById("budgetLabel").innerText = t.budgetLabel;
@@ -203,10 +299,12 @@
         document.getElementById("expenseTitle").innerText = t.expenseTitle;
         document.getElementById("amountLabel").innerText = t.amountLabel;
         document.getElementById("categoryLabel").innerText = t.categoryLabel;
-        document.getElementById("descriptionLabel").innerText = t.descriptionLabel;
+        document.getElementById("descriptionLabel").innerText =
+          t.descriptionLabel;
         document.getElementById("addExpenseBtn").innerText = t.addExpenseBtn;
         document.getElementById("summaryTitle").innerText = t.summaryTitle;
-        document.getElementById("expenseListTitle").innerText = t.expenseListTitle;
+        document.getElementById("expenseListTitle").innerText =
+          t.expenseListTitle;
 
         updateSummary();
         loadCategories(lang);
@@ -216,7 +314,7 @@
         const select = document.getElementById("categorySelect");
         select.innerHTML = "";
 
-        categoryOptions[lang].forEach(cat => {
+        categoryOptions[lang].forEach((cat) => {
           const op = document.createElement("option");
           op.value = cat;
           op.innerText = cat;
@@ -245,7 +343,7 @@
       function updateExpenseList() {
         const list = document.getElementById("expenseList");
         list.innerHTML = "";
-        expenses.forEach(e => {
+        expenses.forEach((e) => {
           const li = document.createElement("li");
           li.innerText = `${e.category} - ₹${e.amount} (${e.description})`;
           list.appendChild(li);
@@ -253,12 +351,17 @@
       }
 
       function updateSummary() {
-        const lang = document.getElementById("nav_language").innerText === "ಭಾಷೆ" ? "kn" : "en";
+        const lang =
+          document.getElementById("nav_language").innerText === "ಭಾಷೆ"
+            ? "kn"
+            : "en";
         const t = uiText[lang];
         const total = expenses.reduce((s, e) => s + e.amount, 0);
 
-        document.getElementById("budgetSummary").innerText = t.budgetSummary(budget);
-        document.getElementById("expenseSummary").innerText = t.expenseSummary(total);
+        document.getElementById("budgetSummary").innerText =
+          t.budgetSummary(budget);
+        document.getElementById("expenseSummary").innerText =
+          t.expenseSummary(total);
       }
 
       let chart = null;
@@ -266,7 +369,7 @@
         const ctx = document.getElementById("pieChart");
         const data = {};
 
-        expenses.forEach(e => {
+        expenses.forEach((e) => {
           data[e.category] = (data[e.category] || 0) + e.amount;
         });
 
@@ -276,8 +379,8 @@
           type: "pie",
           data: {
             labels: Object.keys(data),
-            datasets: [{ data: Object.values(data) }]
-          }
+            datasets: [{ data: Object.values(data) }],
+          },
         });
       }
 

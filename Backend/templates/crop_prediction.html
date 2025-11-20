@@ -48,7 +48,7 @@
             class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50"
           >
             <a
-              href="/financial-advice-page"
+              href="/financial-advice"
               id="features_financial"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Financial Advisor</a
@@ -70,12 +70,6 @@
               id="features_expense"
               class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
               >Expense Tracker</a
-            >
-            <a
-              href="/budget-summary-page"
-              id="features_budget"
-              class="py-2 px-3 rounded hover:bg-green-100 transition font-medium"
-              >Budget Summary</a
             >
           </div>
         </div>
@@ -191,9 +185,9 @@
       </form>
 
       <!-- Output -->
-      <div id="result" class="flex flex-col justify-between w-2/5 space-y-8">
+      <div id="result" class="flex flex-col justify-between w-2/5 space-y-10">
         <div
-          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-39 text-center"
         >
           <h3 id="min_label" class="text-xl font-bold text-green-700">
             Minimum Price
@@ -202,7 +196,7 @@
         </div>
 
         <div
-          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-39 text-center"
         >
           <h3 id="avg_label" class="text-xl font-bold text-green-700">
             Average Price
@@ -211,7 +205,7 @@
         </div>
 
         <div
-          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-40 text-center"
+          class="bg-white border-2 border-green-300 shadow-lg rounded-2xl p-8 h-39 text-center"
         >
           <h3 id="max_label" class="text-xl font-bold text-green-700">
             Maximum Price
@@ -328,9 +322,6 @@
 
         document.getElementById("label_year").innerText =
           lang === "kn" ? "ವರ್ಷ:" : "Year:";
-
-        document.getElementById("label_rainfall").innerText =
-          lang === "kn" ? "ಮಳೆಯ ಪ್ರಮಾಣ (mm):" : "Rainfall (mm):";
 
         document.getElementById("predict_btn").innerText =
           lang === "kn" ? "ಬೆಲೆ ಊಹಿಸಿ" : "Predict Price";
