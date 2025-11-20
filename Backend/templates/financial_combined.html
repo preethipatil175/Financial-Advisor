@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmer Assistant - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body { font-family: "Poppins", sans-serif; }
+      .fade-in { opacity: 0; transform: translateY(20px); animation: fadeInUp 1s forwards; }
+      @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+      #carouselTrack::-webkit-scrollbar { display: none; }
+      #featuresMenu a { display: block; }
+      .container {
+        display: flex; justify-content: center; align-items: flex-start;
+        min-height: calc(100vh - 80px);
+        padding: 50px 20px 20px 20px;
+        display: flex; gap: 20px; max-width: 1000px; width: 100%;
+      }
+      .left-panel { flex: 3 1 0%; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content; }
+      .right-panel { flex: 6 1 0%; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-height: 250px; }
+      input, select { width: 100%; padding: 10px; margin: 10px 0 20px 0; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
+      button { width: 100%; padding: 12px; background: #22c55e; color: white; border: none; cursor: pointer; border-radius: 6px; font-size: 16px; transition: background 0.3s; }
+      .result-box { line-height: 1.7; }
+      .parameters { width: 100%; padding: 8px 10px; margin: 8px 0 16px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; }
+      .parameters:focus { outline: none; border-color: #22c55e; box-shadow: 0 0 4px rgba(34,197,94,0.5); }
+      .parameters_submit { width: 100%; padding: 10px 12px; background-color: #22c55e; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background-color 0.3s, transform 0.2s; }
+      .parameters_submit:hover { background-color: #15803d; transform: scale(1.02); }
+      @media (max-width: 900px) { .container { flex-direction: column; } }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="flex justify-between items-center px-10 py-5 bg-white/80 backdrop-blur-xl shadow-lg sticky top-0 z-50 border-b border-gray-200">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <img src="/static/logo1.jpg" class="h-16 w-16 rounded-xl" />
+        <h1 id="financial_feature_name" class="text-2xl font-bold tracking-wide text-green-700">Financial Advisor</h1>
+      </div>
+
+      <div class="flex items-center gap-10">
+        <!-- HOME -->
+        <a href="/" id="nav_home" class="font-semibold text-lg hover:text-green-700 transition">Home</a>
+
+        <!-- FEATURES DROPDOWN -->
+        <div class="relative">
+          <button id="featuresBtn" class="font-semibold text-lg hover:text-green-700 transition bg-transparent">
+            <span id="nav_features">Features</span>
+          </button>
+
+          <div id="featuresMenu" class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-64 border border-gray-200 right-0 space-y-2 z-50">
+            <a id="nav_financial" href="/financial-advice" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Financial Advisor</a>
+            <a id="nav_crop" href="/price-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Crop Prediction</a>
+            <a id="nav_loan" href="/loan-recommender" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Loan Recommender</a>
+            <a id="nav_expense" href="/expense-form" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Expense Tracker</a>
+            <a id="nav_budget" href="/budget-summary-page" class="py-2 px-3 rounded hover:bg-green-100 transition font-medium">Budget Summary</a>
+          </div>
+        </div>
+
+        <!-- LANGUAGE DROPDOWN -->
+        <div class="relative">
+          <button id="languageBtn" class="font-semibold text-lg hover:text-green-700 transition bg-transparent">
+            <span id="nav_language">Language</span>
+          </button>
+
+          <div id="languageMenu" class="absolute hidden flex-col bg-white shadow-2xl mt-4 rounded-xl p-4 w-40 border border-gray-200 right-0 space-y-2 z-50">
+            <button onclick="loadLanguage('en')" class="py-2 px-3 rounded hover:bg-green-100 transition">English</button>
+            <button onclick="loadLanguage('kn')" class="py-2 px-3 rounded hover:bg-green-100 transition">ಕನ್ನಡ</button>
+          </div>
+        </div>
+
+        <!-- LOGIN ICON -->
+        <button><img src="/static/login_icon.png" class="h-10 w-10 hover:scale-110 transition" /></button>
+      </div>
+    </nav>
+
+    <!-- JS FOR DROPDOWNS -->
+    <script>
+      function setupDropdown(btnId, menuId) {
+        const btn = document.getElementById(btnId);
+        const menu = document.getElementById(menuId);
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          menu.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.classList.add("hidden");
+          }
+        });
+      }
+
+      setupDropdown("featuresBtn", "featuresMenu");
+      setupDropdown("languageBtn", "languageMenu");
+    </script>
+
+    <!-- LANGUAGE SYSTEM -->
+    <script>
+      async function loadLanguage(lang) {
+        const res = await fetch(`/static/lang/${lang}.json`);
+        const data = await res.json();
+
+        for (const key in data) {
+          const element = document.getElementById(key);
+          if (element) element.innerText = data[key];
+        }
+
+        localStorage.setItem("lang", lang);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const saved = localStorage.getItem("lang") || "en";
+        loadLanguage(saved);
+      });
+    </script>
+
+    <div class="container">
+      <!-- LEFT PANEL — FORM -->
+      <div class="left-panel">
+        <h2 id="form_title">Financial Advice Form</h2>
+
+        <form action="/financial-advice" method="POST">
+          <label id="label_risk">Risk Profile</label>
+          <select name="risk_profile" class="parameters">
+            <option id="opt_conservative" value="conservative">Conservative</option>
+            <option id="opt_moderate" value="moderate">Moderate</option>
+            <option id="opt_aggressive" value="aggressive">Aggressive</option>
+          </select>
+
+          <label id="label_term">Investment Term</label>
+          <select name="investment_term" class="parameters">
+            <option id="opt_short" value="short">Short (&lt; 5 years)</option>
+            <option id="opt_medium" value="medium">Medium (5–10 years)</option>
+            <option id="opt_long" value="long">Long (&gt; 10 years)</option>
+          </select>
+
+          <label id="label_initial">Initial Amount (₹)</label>
+          <input type="text" class="parameters" name="initial_amount" required />
+
+          <label id="label_monthly">Monthly Saving (₹)</label>
+          <input type="text" class="parameters" name="monthly_saving" required />
+
+          <div class="form-group">
+            <label id="label_language">Select Language</label>
+            <select id="form_lang_select" name="language" class="parameters">
+              <option id="opt_lang_eng" value="english">English</option>
+              <option id="opt_lang_kn" value="kannada">Kannada</option>
+            </select>
+          </div>
+
+          <button id="btn_submit" type="submit" class="parameters_submit">Get Advice</button>
+        </form>
+      </div>
+
+      <!-- RIGHT PANEL — RESULT -->
+      <div class="right-panel">
+        <h2 id="result_title">Financial Advice Result</h2>
+
+        {% if result and result.error %}
+        <p style="color: red">{{ result.error }}</p>
+        {% elif formatted_output %}
+        <div class="result-box">{{ formatted_output | safe }}</div>
+        {% else %}
+        <p id="result_placeholder" style="color: #777">Fill the form and submit to view advice.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

@@ -10,5 +10,39 @@
   "features_expense": "Expense Tracker",
   "features_expense_desc": "Track and organize all farm expenses.",
   "features_budget": "Budget Summary",
-  "features_budget_desc": "View your monthly financial health."
+  "features_budget_desc": "View your monthly financial health.",
+  
+  "nav_home": "Home",
+  "financial_feature_name":"Financial Advisor",
+  "nav_features": "Features",
+  "nav_language": "Language",
+
+  "nav_financial": "Financial Advisor",
+  "nav_crop": "Crop Prediction",
+  "nav_loan": "Loan Recommender",
+  "nav_expense": "Expense Tracker",
+  "nav_budget": "Budget Summary",
+
+  "form_title": "Financial Advice Form",
+  "label_risk": "Risk Profile",
+  "label_term": "Investment Term",
+  "label_initial": "Initial Amount (₹)",
+  "label_monthly": "Monthly Saving (₹)",
+  "label_language": "Select Language",
+
+  "opt_conservative": "Conservative",
+  "opt_moderate": "Moderate",
+  "opt_aggressive": "Aggressive",
+
+  "opt_short": "Short (< 5 years)",
+  "opt_medium": "Medium (5–10 years)",
+  "opt_long": "Long (> 10 years)",
+
+  "opt_lang_eng": "English",
+  "opt_lang_kn": "Kannada",
+
+  "btn_submit": "Get Advice",
+
+  "result_title": "Financial Advice Result",
+  "result_placeholder": "Fill the form and submit to view advice."
 }

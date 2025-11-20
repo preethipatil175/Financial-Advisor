@@ -4,6 +4,10 @@ from kannadacrop import predict_crop_price
 from exp_budget import FarmerExpenseTracker
 from loan_system import get_loan_recommendation
 from crop_price import ml_predict_price
+import google.generativeai as genai
+from dotenv import load_dotenv
+from markdown import markdown
+import os
 
 
 app = Flask(__name__)
@@ -11,6 +15,21 @@ app = Flask(__name__)
 # Initialize expense tracker
 tracker = FarmerExpenseTracker()
 
+
+load_dotenv()
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+risk_term_mapping = {
+    "conservative": "low risk, focused on safety and essential needs",
+    "moderate": "balanced risk, some growth and some stability",
+    "aggressive": "high risk, focused on expansion and profit"
+}
+
+investment_term_mapping = {
+    "short": "less than 5 years",
+    "medium": "between 5 and 10 years",
+    "long": "more than 10 years"
+}
 
 # ✅ FRONTEND HOME PAGE
 @app.route('/')
@@ -28,53 +47,68 @@ def api_home():
 # ✅ FINANCIAL ADVISOR
 # ======================================================================
 
-def get_financial_advice(risk, term, initial, monthly):
-    # Handle empty or missing values gracefully
-    risk = risk or "Not specified"
-    term = term or "Not specified"
-    initial = initial or 0
-    monthly = monthly or 0
-
-    # Simple static logic (replace later with real calculations)
-    if risk == "conservative":
-        suggestion = "Focus on safe investments like Fixed Deposits or Government Bonds."
-    elif risk == "moderate":
-        suggestion = "Diversify between Mutual Funds, Gold, and Low-risk Stocks."
-    elif risk == "aggressive":
-        suggestion = "Invest more in Equities, Startups, and High-growth Mutual Funds."
-    else:
-        suggestion = "Please select a valid risk profile for better recommendations."
-
-    return {
-        "Risk Profile": risk,
-        "Investment Term": term,
-        "Initial Amount": f"₹{initial}",
-        "Monthly Saving": f"₹{monthly}",
-        "Advisor Suggestion": suggestion
-    }
-
-
-# ✅ Backend route (handles JSON properly)
-@app.route('/financial-advice', methods=['POST'])
-def financial_advice():
+def get_financial_advice(risk_profile, investment_term, initial_amount, monthly_saving, language):
     try:
-        data = request.get_json(force=True)  # ensures JSON parsing works even if headers are missing
-    except Exception:
-        return jsonify({"error": "Invalid JSON received"}), 400
+        initial_amount = float(initial_amount)
+        monthly_saving = float(monthly_saving)
 
-    risk = data.get('risk_profile')
-    term = data.get('investment_term')
-    initial = data.get('initial_amount')
-    monthly = data.get('monthly_saving')
+        # Language instruction
+        if language == "kannada":
+            lang_instruction = "Generate the entire financial advice in Kannada. Avoid English except for numbers."
+        else:
+            lang_instruction = "Generate the entire financial advice in English."
 
-    advice = get_financial_advice(risk, term, initial, monthly)
-    return jsonify(advice)
+        prompt = f"""
+You are a rural financial advisor for Indian farmers.
+
+{lang_instruction}
+
+Provide detailed financial advice based on:
+- Risk Profile: {risk_profile} ({risk_term_mapping[risk_profile]})
+- Term: {investment_term} ({investment_term_mapping[investment_term]})
+- Initial Amount: ₹{initial_amount}
+- Monthly Saving: ₹{monthly_saving}
+
+Do NOT return JSON.
+Return a full explanation, portfolio breakdown, tables, and reasoning in clean Markdown format.
+"""
+
+        model = genai.GenerativeModel("gemini-2.0-flash")
+        response = model.generate_content(prompt)
+
+        return {"raw_output": response.text.strip()}
+
+    except Exception as e:
+        return {"error": str(e)}
 
 
-# ✅ Frontend route (renders your HTML page)
-@app.route('/financial-advice-page')
-def financial_advice_page():
-    return render_template("financial_advice.html")
+@app.route("/financial-advice", methods=["GET", "POST"])
+def index():
+    formatted_output = None
+    result = None
+
+    if request.method == "POST":
+        risk_profile = request.form.get("risk_profile")
+        investment_term = request.form.get("investment_term")
+        initial_amount = request.form.get("initial_amount")
+        monthly_saving = request.form.get("monthly_saving")
+        language = request.form.get("language")  # New
+
+        result = get_financial_advice(
+            risk_profile,
+            investment_term,
+            initial_amount,
+            monthly_saving,
+            language
+        )
+
+        if "raw_output" in result:
+            formatted_output = markdown(
+                result["raw_output"],
+                extensions=["extra", "tables", "sane_lists"]
+            )
+
+    return render_template("financial_combined.html", result=result, formatted_output=formatted_output)
 
 
 # ======================================================================
